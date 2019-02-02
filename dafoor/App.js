@@ -3,6 +3,15 @@ import { StyleSheet, Text, View } from 'react-native';
 import Auth from './components/firebase/Auth'
 
 export default class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      isLoggedIn: false, // check if the user loged in ot not 
+      activePage: '', // check the state to render compnent
+      userInfo: undefined  // get user infomation 
+    }
+  }
+  
   render() {
     return (
       <View style={styles.container}>
