@@ -7,6 +7,7 @@ import Tutors from './components/tutor/Tutors';
 import Profile from './components/Profile';
 import firebase from 'firebase';
 import ListOfTutors from './components/student/ListOfTutors';
+import ReqForm from './components/student/ReqForm';
 
 const config = require('./components/firebase/config');
 
@@ -107,7 +108,11 @@ export default class App extends React.Component {
             <Tutors/>)
           :
           // <Logs/> 
-         <Profile />
+        //  <Profile />
+         <ReqForm/>
+
+         
+
         //  <ListOfTutors name={this.state.name}/> 
          }
       {/* <Button title="Sign Out" onPress={this.handleSignOut} />
