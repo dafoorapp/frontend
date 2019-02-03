@@ -107,8 +107,8 @@ export default class App extends React.Component {
             <Tutors/>)
           :
           // <Logs/> 
-         // <Profile />
-         <ListOfTutors name={this.state.name}/> 
+         <Profile />
+        //  <ListOfTutors name={this.state.name}/> 
          }
       {/* <Button title="Sign Out" onPress={this.handleSignOut} />
       <Text>Sign up!</Text>
