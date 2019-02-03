@@ -7,7 +7,7 @@ import Tutors from './components/tutor/Tutors';
 import Profile from './components/Profile';
 import firebase from 'firebase';
 import ListOfTutors from './components/student/ListOfTutors';
-import ReqForm from './components/student/ReqForm';
+
 
 const config = require('./components/firebase/config');
 
@@ -20,12 +20,13 @@ export default class App extends React.Component {
       isLoggedIn: false, // check if the user loged in ot not 
       activePage: 'tutor', // check the state to render compnent
       userInfo: undefined,  // get user infomation,
-      name: 'test'
+      name: 'test',
+      email: ''
     }
   }
 
   // check if the user logged in or out
-  componentWillMount() {
+  componentDidMount() {
 
     setIsLoggedIn = () => {
       this.setState({
@@ -35,16 +36,18 @@ export default class App extends React.Component {
     }
 
     getUser = () => {
-      fetch(`${API_URL}/users`)
+      console.log(`${API_URL}/users/${this.state.email}`)
+      fetch(`${API_URL}/users/${this.state.email}`)
+      .then(response => response.json())
       .then(data => {
-        console.log('fetch user data', data)
+        console.log('fetch user data', data.type )
         if (data.type === 'student') {
           this.setActivePage('student');
         } else {
           this.setActivePage('tutor');
         }
       })
-      .catch(error => console.log(error))
+      .catch(error => console.log('@@@#####',error))
     }
 
     firebase.initializeApp(config);
@@ -95,11 +98,12 @@ export default class App extends React.Component {
       })
       .catch(error => this.setState({ errorMessage: error.message }))
   }
+
+
   
   render() {
     return (
       <View style={styles.container}>
-      
         {
           (this.state.isLoggedIn) ? 
             ((this.state.activePage === 'student') ? 
@@ -107,14 +111,10 @@ export default class App extends React.Component {
             :
             <Tutors/>)
           :
-          // <Logs/> 
-        //  <Profile />
-         <ReqForm/>
-
-         
-
+          <Logs/>
         //  <ListOfTutors name={this.state.name}/> 
-         }
+        }
+
       {/* <Button title="Sign Out" onPress={this.handleSignOut} />
       <Text>Sign up!</Text>
   
@@ -134,6 +134,9 @@ export default class App extends React.Component {
         value={this.state.password}
       />
       <Button title="Sign Up" onPress={this.handleSignUp} />
+*/}
+
+      {/* <Button title="Sign Out" onPress={this.handleSignOut} />
 
       <TextInput
         placeholder="Email"
@@ -151,7 +154,7 @@ export default class App extends React.Component {
         value={this.state.password}
       />
       
-      <Button title="Sign in" onPress={this.handleSignIn}/> */}
+      <Button title="Sign in" onPress={this.handleSignIn}/>  */}
       </View>
     );
   }
