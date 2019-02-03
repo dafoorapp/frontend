@@ -4,49 +4,48 @@ import firebase from 'firebase';
 import Profile from './Profile';
 // import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 
-// const config = require('./firebase/config.js');
+const config = require('./firebase/config');
 
 
 export default class Logs extends React.Component {
-    constructor(props){
-      super(props);
+    constructor(){
+      super();
       this.state = {
         typeOfLog: '',
         userType: '',
         activePage: '',
         email: '',
         password: '',
-        errorMessage: null,
-        config: props.config
+        errorMessage: null
       }
     }
 
     componentWillMount(){
-      firebase.initializeApp(this.state.config);
+      firebase.initializeApp(config);
     }
 
     handleSignUp = () => {
-      // firebase
-      //   .auth()
-      //   .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      //   .then(() => {
-      //     console.log('User sign up!!!!');
-      //   })
-      //   .catch(error => this.setState({ errorMessage: error.message }))
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(() => {
+          console.log('User sign up!!!!');
+        })
+        .catch(error => this.setState({ errorMessage: error.message }))
     }
 
     handleSignIn = () => {
-      // firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-      // .then(() => {
-      //   console.log("User sign in!!!!");
-      // })
-      // .catch(function(error) {
-      //   // Handle Errors here.
-      //   var errorCode = error.code;
-      //   var errorMessage = error.message;
-      //   console.log(errorMessage)
-      //   // ...
-      // });
+      firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then(() => {
+        console.log("User sign in!!!!");
+      })
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorMessage)
+        // ...
+      });
   
     }
 
@@ -127,32 +126,32 @@ export default class Logs extends React.Component {
       // }
     }
 
-    // renderSignin = () => {
-    //   return (
+    renderSignin = () => {
+      return (
 
-    //     <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }}>
-    //           <Text>
-    //           SIGN UP
-    //           </Text>
-    //           <TextInput
-    //             placeholder="Email"
-    //             autoCapitalize="none"
-    //             // style={styles.textInput}
-    //             onChangeText={email => this.setState({ email })}
-    //             value={this.state.email}
-    //           />
-    //           <TextInput
-    //             secureTextEntry
-    //             placeholder="Password"
-    //             autoCapitalize="none"
-    //             // style={styles.textInput}
-    //             onChangeText={password => this.setState({ password })}
-    //             value={this.state.password}
-    //           />
-    //           <Button title="Sign Up" onPress={this.handleSignUp} />
-    //         </View>
-    //   )
-    // }
+      <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }}>
+              <Text>
+              SIGN UP
+              </Text>
+              <TextInput
+                placeholder="Email"
+                autoCapitalize="none"
+                // style={styles.textInput}
+                onChangeText={email => this.setState({ email })}
+                value={this.state.email}
+              />
+              <TextInput
+                secureTextEntry
+                placeholder="Password"
+                autoCapitalize="none"
+                // style={styles.textInput}
+                onChangeText={password => this.setState({ password })}
+                value={this.state.password}
+              />
+              <Button title="Sign Up" onPress={this.handleSignUp} />
+            </View>
+      )
+    }
 
     render() {
       return (
