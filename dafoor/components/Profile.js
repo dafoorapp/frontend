@@ -1,21 +1,32 @@
 import React from 'react';
-import { StyleSheet, Text, View , TextInput} from 'react-native';
+import { StyleSheet, Text, View , TextInput, Picker} from 'react-native';
 // import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
-
+import RNPickerSelect from 'react-native-picker-select';
 import { Button, ThemeProvider} from 'react-native-elements';
-import { Input } from 'react-native-elements';
+import { Input , ButtonGroup } from 'react-native-elements';
 
 export default class Profile extends React.Component {
     constructor(){
       super();
       this.state = {
         name:'',
-        gender:'',
+        // gender:'',
         phone_number:'',
         latitude:null,
         longitude:null,
         location : null,
         error:'',
+        gender: undefined,
+            items: [
+                {
+                    label: 'Male',
+                    value: 'M',
+                },
+                {
+                    label: 'Female',
+                    value: 'F',
+                },
+            ],
         
       }
     }
@@ -55,8 +66,10 @@ export default class Profile extends React.Component {
       
     }
 
+
     render() {
       return (
+        
         <View style={styles.container}>
          
          <Input style = {styles.input}
@@ -65,13 +78,25 @@ export default class Profile extends React.Component {
           leftIcon={{ type: 'font-awesome', name: 'user', marginRight: 20}}
           errorMessage='Enter your name here' 
           />
+                    <RNPickerSelect
+                    style= {styles.input}
+                    placeholder={{
+                        
+                    }}
+                    items={this.state.items}
+                    onValueChange={(value) => {
+                        this.setState({
+                            gender: value,
+                        } , () => console.log(this.state.gender));
+                    }}
+                    />
 
-         <Input style = {styles.input}
+         {/* <Input style = {styles.input}
           onChangeText = {(gender) => console.log(gender)}
           placeholder='Gender'
           leftIcon={{ type: 'font-awesome', name: 'male' ,marginRight: 20}}
           errorMessage='Enter your Gender here' 
-          />
+          /> */}
 
          <Input style = {styles.input}
          keyboardType = 'numeric'
@@ -105,7 +130,7 @@ export default class Profile extends React.Component {
     },
 
     input: {
-
+      
       width: 100
     }
    
