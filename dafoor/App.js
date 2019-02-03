@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Auth from './components/firebase/Auth'
+import Profile from './components/Profile.js';
 import Logs from './components/Logs';
 
 export default class App extends React.Component {
@@ -18,6 +19,8 @@ export default class App extends React.Component {
       <View style={styles.container}>
         <Text>Open up App.js to start working on your app!</Text>
         {/* <Auth/> */}
+
+        <Profile/>
         <Logs/>
       </View>
     );
