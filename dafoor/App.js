@@ -98,11 +98,12 @@ export default class App extends React.Component {
       })
       .catch(error => this.setState({ errorMessage: error.message }))
   }
+
+
   
   render() {
     return (
       <View style={styles.container}>
-      
         {
           (this.state.isLoggedIn) ? 
             ((this.state.activePage === 'student') ? 
@@ -110,11 +111,12 @@ export default class App extends React.Component {
             :
             <Tutors/>)
           :
-          // <Logs/> 
+          <Logs/>
+    
         //  <Profile />
         //  <ListOfTutors name={this.state.name}/> 
-        <ActiveReq />
-}
+        }
+
       {/* <Button title="Sign Out" onPress={this.handleSignOut} />
       <Text>Sign up!</Text>
   
@@ -136,7 +138,7 @@ export default class App extends React.Component {
       <Button title="Sign Up" onPress={this.handleSignUp} />
 */}
 
-      <Button title="Sign Out" onPress={this.handleSignOut} />
+      {/* <Button title="Sign Out" onPress={this.handleSignOut} />
 
       <TextInput
         placeholder="Email"
@@ -154,7 +156,7 @@ export default class App extends React.Component {
         value={this.state.password}
       />
       
-      <Button title="Sign in" onPress={this.handleSignIn}/> 
+      <Button title="Sign in" onPress={this.handleSignIn}/>  */}
       </View>
     );
   }
