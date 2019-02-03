@@ -7,7 +7,7 @@ import Tutors from './components/tutor/Tutors';
 import Profile from './components/Profile';
 import firebase from 'firebase';
 import ListOfTutors from './components/student/ListOfTutors';
-import ActiveReq from './components/tutor/ActiveReq';
+
 
 const config = require('./components/firebase/config');
 
@@ -112,8 +112,6 @@ export default class App extends React.Component {
             <Tutors/>)
           :
           <Logs/>
-    
-        //  <Profile />
         //  <ListOfTutors name={this.state.name}/> 
         }
 
