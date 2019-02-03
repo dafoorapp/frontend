@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button} from 'react-native';
+import { StyleSheet, Text, View, Button, Alert} from 'react-native';
 
 export default class ActiveReq extends React.Component {
     constructor(){
@@ -8,13 +8,26 @@ export default class ActiveReq extends React.Component {
       }
     }
 
+    accept() {
+      Alert.alert('request accepted')
+    }
+
+    decline() {
+      Alert.alert('request decline')
+    }
+
 
     render() {
       return (
         <View style={styles.container}>
-          <Text>Open up App.js to start working on your app!</Text>
-          {/* <Button title='Accept'/>
-          <Button title='Decline'/> */}
+          <Text>New Request</Text>
+          <Text>Name: </Text>
+          <Text>Gender: </Text>
+          <Text>Duration: </Text>
+
+          <Text></Text>
+          <Button title='Accept' onPress={this.accept}/>
+          <Button title='Decline' onPress={this.decline}/>
         </View>
       );
     }
