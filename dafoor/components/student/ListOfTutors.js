@@ -9,7 +9,7 @@ const ListOfTutors = (props) => {
           <Text>Rating: {props.name}</Text>
           <Text>Gender: {props.name}</Text>
           <Text>Price per hour: {props.name}</Text>
-          <Button title='Make Request' onPress={console.log('thank for request')}/>
+          {/* <Button title='Make Request' onPress={console.log('thank for request')}/> */}
         </View>
       );
   };

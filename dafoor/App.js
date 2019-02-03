@@ -17,7 +17,7 @@ export default class App extends React.Component {
     super();
     this.state = {
       isLoggedIn: false, // check if the user loged in ot not 
-      activePage: 'tutor', // check the state to render compnent
+      activePage: 'student', // check the state to render compnent
       userInfo: undefined,  // get user infomation,
       name: 'test'
     }
@@ -50,7 +50,7 @@ export default class App extends React.Component {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         setIsLoggedIn();
-        getUser();
+        // getUser();
         // console.log(user);
       } else {
         console.log('no user');
@@ -97,20 +97,21 @@ export default class App extends React.Component {
   
   render() {
     return (
-      <View style={styles.container}>
+      // <View style={styles.container}>
       
-        {
+        
           (this.state.isLoggedIn) ? 
             ((this.state.activePage === 'student') ? 
             <Student/>
             :
             <Tutors/>)
           :
-          // <Logs/> 
+          // <Profile />
+          <Logs config={config}/> 
          // <Profile />
-         <ListOfTutors name={this.state.name}/> 
-         }
-      {/* <Button title="Sign Out" onPress={this.handleSignOut} />
+        //  <ListOfTutors name={this.state.name}/> 
+         
+      /* <Button title="Sign Out" onPress={this.handleSignOut} />
       <Text>Sign up!</Text>
   
       <TextInput
@@ -146,8 +147,8 @@ export default class App extends React.Component {
         value={this.state.password}
       />
       
-      <Button title="Sign in" onPress={this.handleSignIn}/> */}
-      </View>
+      <Button title="Sign in" onPress={this.handleSignIn}/> */
+      // </View>
     );
   }
 }
