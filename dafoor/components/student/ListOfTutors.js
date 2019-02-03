@@ -1,22 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View} from 'react-native';
-
-export default class ListOfTutors extends React.Component {
-    constructor(){
-      super();
-      this.state = {
-      }
-    }
+import { StyleSheet, Text, View, Button, Alert} from 'react-native';
 
 
-    render() {
+const ListOfTutors = (props) => {
       return (
         <View style={styles.container}>
-          <Text>Open up App.js to start working on your app!</Text>
+          <Text>Name: {props.name}</Text>
+          <Text>Rating: {props.name}</Text>
+          <Text>Gender: {props.name}</Text>
+          <Text>Price per hour: {props.name}</Text>
+          <Button title='Make Request' onPress={console.log('thank for request')}/>
         </View>
       );
-    }
-  }
+  };
+
+  export default ListOfTutors;
 
   const styles = StyleSheet.create({
     container: {
