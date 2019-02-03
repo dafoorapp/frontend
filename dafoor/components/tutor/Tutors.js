@@ -6,22 +6,22 @@ import ActiveReq from './ActiveReq';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 
 
-// export default class Tutors extends React.Component {
-//     constructor(){
-//       super();
-//       this.state = {
-//       }
-//     }
+export default class Tutors extends React.Component {
+    constructor(){
+      super();
+      this.state = {
+      }
+    }
 
 
-//     render() {
-//       return (
-//         <View style={styles.container}>
-//           <Text>Open up App.js to start working on your app!</Text>
-//         </View>
-//       );
-//     }
-//   }
+    render() {
+      return (
+        <View style={styles.container}>
+          <Text>Heeeeey</Text>
+        </View>
+      );
+    }
+  }
 
 class MapScreen extends React.Component {
     render() {
@@ -57,11 +57,11 @@ class MapScreen extends React.Component {
   }
 
     
-  export default createAppContainer(createBottomTabNavigator({
-    ActiveReq: { screen: MapScreen },
-    Requests: { screen: RequestsScreen },
-    Profile: { screen: ProfileScreen },
-  }))
+  // export default createAppContainer(createBottomTabNavigator({
+  //   ActiveReq: { screen: MapScreen },
+  //   Requests: { screen: RequestsScreen },
+  //   Profile: { screen: ProfileScreen },
+  // }))
 
   const styles = StyleSheet.create({
     container: {

@@ -13,7 +13,7 @@ export default class Profile extends React.Component {
       return (
         <View style={styles.container}>
           <Text>Profile Page !</Text>
-          {Alert.alert('$$$$$$$$$$$$$$$$$$$$$$$$$$$')}
+          {Alert.alert('not user')}
         </View>
       );
     }
