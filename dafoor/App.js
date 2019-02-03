@@ -16,7 +16,7 @@ export default class App extends React.Component {
     super();
     this.state = {
       isLoggedIn: false, // check if the user loged in ot not 
-      activePage: 'jsdj', // check the state to render compnent
+      activePage: 'student', // check the state to render compnent
       userInfo: undefined  // get user infomation 
     }
   }
@@ -75,35 +75,34 @@ export default class App extends React.Component {
   
   render() {
     return (
-      <View style={styles.container}>
-      {(this.state.isLoggedIn)?  <Profile /> : null}
-      <Button title="Sign Out" onPress={this.handleSignOut} />
-      {/* {this.renderActivePage()} */}
-        <TextInput
-        placeholder="Email"
-        autoCapitalize="none"
-        // style={styles.textInput}
-        onChangeText={email => this.setState({ email })}
-        value={this.state.email}
-      />
-      <TextInput
-        secureTextEntry
-        placeholder="Password"
-        autoCapitalize="none"
-        // style={styles.textInput}
-        onChangeText={password => this.setState({ password })}
-        value={this.state.password}
-      />
-      
-      {/* <Button title="Sign in" onPress={this.handleSignIn}/>
+      // <View style={styles.container}>
+      // {(this.state.isLoggedIn)?  <Profile /> : null}
+      // <Button title="Sign Out" onPress={this.handleSignOut} />
+      // {/* {this.renderActivePage()} */}
+      //   <TextInput
+      //   placeholder="Email"
+      //   autoCapitalize="none"
+      //   // style={styles.textInput}
+      //   onChangeText={email => this.setState({ email })}
+      //   value={this.state.email}
+      // />
+      // <TextInput
+      //   secureTextEntry
+      //   placeholder="Password"
+      //   autoCapitalize="none"
+      //   // style={styles.textInput}
+      //   onChangeText={password => this.setState({ password })}
+      //   value={this.state.password}
+      // />
+      // </View>
+      // <Button title="Sign in" onPress={this.handleSignIn}/>
        (this.state.activePage === '') ? 
        <Logs/>
        : 
        (this.state.activePage === 'student') ? 
        <Student/>
        :
-       <Tutors/> */}
-      </View>
+       <Tutors/> 
     );
   }
 }
