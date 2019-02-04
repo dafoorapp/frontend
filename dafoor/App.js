@@ -18,8 +18,9 @@ export default class App extends React.Component {
     super();
     this.state = {
       isLoggedIn: false, // check if the user loged in ot not 
-      activePage: 'student', // check the state to render compnent
-      userInfo: undefined,  // get user infomation,
+      activePage: 'tutor', // check the state to render compnent
+      userInfo: undefined,  // get user infomation from users table
+      userData: undefined, // get user infomation from userType table
       name: 'test',
       email: ''
     }
@@ -28,41 +29,87 @@ export default class App extends React.Component {
   // check if the user logged in or out
   componentDidMount() {
 
-    setIsLoggedIn = () => {
-      this.setState({
-        isLoggedIn: true
-      })
-      console.log ("@@@@ user is Loged in", this.state.isLoggedIn)
-    }
-
-    getUser = () => {
-      console.log(`${API_URL}/users/${this.state.email}`)
-      fetch(`${API_URL}/users/${this.state.email}`)
-      .then(response => response.json())
-      .then(data => {
-        console.log('fetch user data', data.type )
-        if (data.type === 'student') {
-          this.setActivePage('student');
-        } else {
-          this.setActivePage('tutor');
-        }
-      })
-      .catch(error => console.log('@@@#####',error))
-    }
-
+    const setIsLoggedIn = this.setIsLoggedIn;
+    const getUserInfo = this.getUserInfo;
+    const setUserEmail = this.setUserEmail;
+    
     firebase.initializeApp(config);
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
+        console.log(user)
         setIsLoggedIn();
-        // getUser();
+        setUserEmail(user.email);
+        getUserInfo();
         // console.log(user);
       } else {
         console.log('no user');
       }
     });
+
+    // setIsLoggedIn = () => {
+    //   this.setState({
+    //     isLoggedIn: true
+    //   })
+    //   console.log ("@@@@ user is Loged in", this.state.isLoggedIn)
+    // }
+
+    // getUser = () => {
+    //   console.log(`${API_URL}/users/${this.state.email}`)
+    //   fetch(`${API_URL}/users/${this.state.email}`)
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     console.log('fetch user data', data.type )
+    //     if (data.type === 'student') {
+    //       this.setActivePage('student');
+    //     } else {
+    //       this.setActivePage('tutor');
+    //     }
+    //   })
+    //   .catch(error => console.log('@@@#####',error))
+    // }
     
   }
- 
+
+  setUserEmail = (email) => {
+    this.setState({email})
+    console.log(this.state.email)
+  }
+
+  setIsLoggedIn = () => {
+    this.setState({
+      isLoggedIn: true
+    })
+    console.log ("@@@@ user is Loged in", this.state.isLoggedIn)
+  }
+
+  getUserInfo = () => {
+    fetch(`${API_URL}/users/${this.state.email}`)
+    .then(response => response.json())
+    .then(data => {
+      this.setState({ userInfo: data })
+      console.log(data)
+      console.log('fetch user data', data.type )
+      this.getUserData();
+      if (data.type === 'student') {
+        this.setActivePage('student');
+      } else {
+        this.setActivePage('tutor');
+      }
+    })
+    .catch(error => console.log(error))
+  }
+
+  getUserData = () => {
+    console.log(`${API_URL}/${this.state.userInfo.type}s/${this.state.userInfo.id}`)
+    fetch(`${API_URL}/${this.state.userInfo.type}s/${this.state.userInfo.id}`)
+    .then(response => response.json())
+    .then(data => {
+      this.setState({ userData : data})
+      console.log('fetch user data', data )
+    })
+    .catch(error => console.log(error))
+  } 
+
   handleSignOut = () => {
     firebase.auth().signOut().then(() => {
       console.log('sign out!!!')
@@ -106,11 +153,11 @@ export default class App extends React.Component {
         
           (this.state.isLoggedIn) ? 
             ((this.state.activePage === 'student') ? 
-            <Student/>
+            <Student userInfo={this.state.userInfo} userData={this.state.userData}/>
             :
-            <Tutors/>)
+            <Tutors userInfo={this.state.userInfo} userData={this.state.userData}/>)
           :
-          <Logs/>
+          <Logs setIsLoggedIn={this.setIsLoggedIn.bind(this)}/>
         //  <ListOfTutors name={this.state.name}/> 
         
 
