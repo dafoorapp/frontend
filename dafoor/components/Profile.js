@@ -83,6 +83,7 @@ export default class Profile extends React.Component {
                     placeholder={{
                         
                     }}
+                    name="gender"
                     items={this.state.items}
                     onValueChange={(value) => {
                         this.setState({
