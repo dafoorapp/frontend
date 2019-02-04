@@ -7,8 +7,6 @@ import Tutors from './components/tutor/Tutors';
 import Profile from './components/Profile';
 import firebase from 'firebase';
 import ListOfTutors from './components/student/ListOfTutors';
-import ReqForm from './components/student/ReqForm';
-import ActiveReq from './components/tutor/ActiveReq';
 
 const config = require('./components/firebase/config');
 
@@ -19,7 +17,7 @@ export default class App extends React.Component {
     super();
     this.state = {
       isLoggedIn: false, // check if the user loged in ot not 
-      activePage: 'student', // check the state to render compnent
+      activePage: '', // check the state to render compnent
       userInfo: undefined,  // get user infomation,
       name: 'test',
       email: ''
@@ -28,6 +26,7 @@ export default class App extends React.Component {
 
   // check if the user logged in or out
   componentDidMount() {
+
 
     setIsLoggedIn = () => {
       this.setState({
@@ -55,7 +54,7 @@ export default class App extends React.Component {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         setIsLoggedIn();
-        getUser();
+        // getUser();
         // console.log(user);
       } else {
         console.log('no user');
@@ -104,7 +103,6 @@ export default class App extends React.Component {
   
   render() {
     return (
-      // <View style={styles.container}>
         
           (this.state.isLoggedIn) ? 
             ((this.state.activePage === 'student') ? 
@@ -112,18 +110,50 @@ export default class App extends React.Component {
             :
             <Tutors/>)
           :
-          // <Logs/> 
-         <Profile />
-        //  <ReqForm/>
-
-         
-
-          // <Logs/>
-    
-        //  <Profile />
+          <Logs/>
         //  <ListOfTutors name={this.state.name}/> 
         
 
+      /* <Button title="Sign Out" onPress={this.handleSignOut} />
+      <Text>Sign up!</Text>
+  
+      <TextInput
+        placeholder="Email"
+        autoCapitalize="none"
+        // style={styles.textInput}
+        onChangeText={email => this.setState({ email })}
+        value={this.state.email}
+      />
+      <TextInput
+        secureTextEntry
+        placeholder="Password"
+        autoCapitalize="none"
+        // style={styles.textInput}
+        onChangeText={password => this.setState({ password })}
+        value={this.state.password}
+      />
+      <Button title="Sign Up" onPress={this.handleSignUp} />
+*/
+
+      /* <Button title="Sign Out" onPress={this.handleSignOut} />
+
+      <TextInput
+        placeholder="Email"
+        autoCapitalize="none"
+        // style={styles.textInput}
+        onChangeText={email => this.setState({ email })}
+        value={this.state.email}
+      />
+      <TextInput
+        secureTextEntry
+        placeholder="Password"
+        autoCapitalize="none"
+        // style={styles.textInput}
+        onChangeText={password => this.setState({ password })}
+        value={this.state.password}
+      />
+      
+      <Button title="Sign in" onPress={this.handleSignIn}/>  */
     );
   }
 }

@@ -4,6 +4,7 @@ import { StyleSheet, Text, View , TextInput, Picker} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { Button, ThemeProvider} from 'react-native-elements';
 import { Input , ButtonGroup } from 'react-native-elements';
+import firebase from 'firebase';
 
 export default class Profile extends React.Component {
     constructor(){
@@ -47,6 +48,7 @@ export default class Profile extends React.Component {
         (error) => this.setState({ error: error.message }),
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
       );
+      
     }
 
     // handleChange(event){
@@ -64,6 +66,13 @@ export default class Profile extends React.Component {
     handleSubmit(event) { //
       event.preventDefault();
       
+    }
+
+    handleSignOut = () => {
+      firebase.auth().signOut().then(() => {
+        console.log('sign out!!!')
+        this.setState({isLoggedIn: false})
+      });
     }
 
 
@@ -109,7 +118,9 @@ export default class Profile extends React.Component {
 
           {/* the buttons gonna be displayed based on a conditional */}
           <Button style = {styles.button}title="Submit!" /> 
-          <Button title="Edit!" />        
+          <Button title="Edit!" />    
+
+          <Button title = "sign out" onPress = {this.handleSignOut} />    
         </View>
       );
     }
@@ -130,8 +141,7 @@ export default class Profile extends React.Component {
       borderWidth: 1.0,
     },
 
-    input: {
-      
+    input: {  
       width: 100
     }
    

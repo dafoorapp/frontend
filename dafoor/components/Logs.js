@@ -2,7 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import firebase from 'firebase';
 import Profile from './Profile';
+import RNPickerSelect from 'react-native-picker-select';
 // import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+const API_URL = 'http://localhost:3000';
 
 const config = require('./firebase/config');
 
@@ -11,19 +13,68 @@ export default class Logs extends React.Component {
       super();
       this.state = {
         typeOfLog: '',
-        userType: '',
+        // userType: '',
         activePage: '',
         email: '',
         password: '',
-        errorMessage: null
+        errorMessage: null,
+        userType:undefined,
+        items: [
+          {
+              label: 'Student',
+              value: 'student',
+          },
+          {
+              label: 'Tutor',
+              value: 'tutor',
+          },
+      ],
+              userInfo: undefined,
       }
+    }
+
+    createUser(){
+      // this.setState({
+      //   activePage:'profile'
+      // })
+      const url = API_URL + '/users';
+      const userData = {
+        email : this.state.email,
+        type: this.state.userType
+      }
+      console.log("*****",userData)
+      fetch(url,{
+        method:'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.setState({
+          activePage:"profile"
+        }, () => {
+          console.log(this.state.activePage)
+        })
+        // this.setter(data);
+        // console.log(`user's Data:${data}`)
+        
+      })
+      .catch(error => console.log(error))
+      
     }
     
     handleSignUp = () => {
+
+
+      const createUser = this.createUser;
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => {
+          createUser();
           console.log('User sign up!!!!');
         })
         .catch(error => this.setState({ errorMessage: error.message }))
@@ -52,102 +103,6 @@ export default class Logs extends React.Component {
       })
     }
 
-    // renderLogs = () => {
-      // if (this.state.typeOfLog === ''){
-      //   console.log('loogs');
-      //   <View style={styles.container}>
-      //     <Button title="Sign In" onPress={this.handlelogs} />
-      //     <Button title="Sign Up" onPress={this.handlelogs} />
-      //   </View>
-      // } 
-      
-      // else if (this.state.typeOfLog === 'signup') {
-      //   if (this.state.activePage === 'profile') {
-      //     console.log('profile');
-      //     return (
-            
-      //       <Profile/>
-      //       // <View>
-
-      //       // </View>
-      //     )
-      //   } else {
-      //     console.log('sign up')
-      //     return (
-      //       <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }}>
-      //         <Text>
-      //         SIGN UP
-      //         </Text>
-      //         <TextInput
-      //           placeholder="Email"
-      //           autoCapitalize="none"
-      //           // style={styles.textInput}
-      //           onChangeText={email => this.setState({ email })}
-      //           value={this.state.email}
-      //         />
-      //         <TextInput
-      //           secureTextEntry
-      //           placeholder="Password"
-      //           autoCapitalize="none"
-      //           // style={styles.textInput}
-      //           onChangeText={password => this.setState({ password })}
-      //           value={this.state.password}
-      //         />
-      //         <Button title="Sign Up" onPress={this.handleSignUp} />
-      //       </View>
-      //     )
-      //   }
-      // } else {
-      //   return (
-      //     <View>
-      //       <Text>Sign in!</Text>
-      //       <TextInput
-      //         placeholder="Email"
-      //         autoCapitalize="none"
-      //         // style={styles.textInput}
-      //         onChangeText={email => this.setState({ email })}
-      //         value={this.state.email}
-      //       />
-      //       <TextInput
-      //         secureTextEntry
-      //         placeholder="Password"
-      //         autoCapitalize="none"
-      //         // style={styles.textInput}
-      //         onChangeText={password => this.setState({ password })}
-      //         value={this.state.password}
-      //       />
-      //       <Button title="Sign in" onPress={this.handleSignIn} />
-      //     </View>
-      //   )
-      // }
-    // }
-
-    // renderSignin = () => {
-    //   return (
-    //   <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }}>
-    //           <Text>
-    //           SIGN UP
-    //           </Text>
-    //           <TextInput
-    //             placeholder="Email"
-    //             autoCapitalize="none"
-    //             // style={styles.textInput}
-    //             onChangeText={email => this.setState({ email })}
-    //             value={this.state.email}
-    //           />
-    //           <TextInput
-    //             secureTextEntry
-    //             placeholder="Password"
-    //             autoCapitalize="none"
-    //             // style={styles.textInput}
-    //             onChangeText={password => this.setState({ password })}
-    //             value={this.state.password}
-    //           />
-    //           <Button title="Sign Up" onPress={this.handleSignUp} />
-    //         </View>
-    //   )
-    // }
-
     renderLogs = () => {
       return(
         <View>
@@ -158,9 +113,11 @@ export default class Logs extends React.Component {
     }
 
     renderLogForm = () => {
+      console.log('prrrroooofile ',this.state.activePage);
       return(
         <View>
-          { this.state.typeOfLog === 'sign-up' ? <Text>Sign Up</Text>: <Text>Sign In</Text>}
+          {this.state.activePage === 'profile' ? <Profile/> : 
+           this.state.typeOfLog === 'sign-up' ? <Text>Sign Up</Text>: <Text>Sign In</Text> }
           <TextInput
             placeholder="Email"
             autoCapitalize="none"
@@ -176,17 +133,32 @@ export default class Logs extends React.Component {
           />
 
           {this.state.typeOfLog === 'sign-up' ? 
-          <View> 
-            <TextInput 
+          <View style={{marginTop : 15}}> 
+            {/* <TextInput 
             placeholder="Student or Tutor" 
             autoCapitalize="none"
             onChangeText={userType => this.setState({ userType })}
             value={this.state.userType}
-            />
-            <Button title="Sign Up" onPress={this.handleSignUp} />
+            /> */}
+            <Text>Account type</Text>
+            <RNPickerSelect
+                    
+                    placeholder={{
+                        
+                    }}
+                    name="type"
+                    items={this.state.items}
+                    onValueChange={(value) => {
+                        this.setState({
+                            userType: value,
+                        } , () => console.log(this.state.userType));
+                    }}
+                    />
+          
+            <Button style= {{marginTop:15}} title="Sign Up" onPress={this.handleSignUp} />
           </View>
             :
-            <Button title="Sign in" onPress={this.handleSignIn} />
+            <Button  title="Sign in" onPress={this.handleSignIn} />
           }
         </View>
 
