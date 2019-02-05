@@ -9,73 +9,77 @@ const API_URL = 'http://localhost:3000';
 const config = require('./firebase/config');
 
 export default class Logs extends React.Component {
-    constructor(){
-      super();
-      this.state = {
-        typeOfLog: '',
-        // userType: '',
-        activePage: '',
-        email: '',
-        password: '',
-        errorMessage: null,
-        userType:undefined,
-        items: [
-          {
-              label: 'Student',
-              value: 'student',
-          },
-          {
-              label: 'Tutor',
-              value: 'tutor',
-          },
-      ],
-              userInfo: undefined,
-      }
-    }
-
-    createUser(){
-      // this.setState({
-      //   activePage:'profile'
-      // })
-      const url = API_URL + '/users';
-      const userData = {
-        email : this.state.email,
-        type: this.state.userType
-      }
-      console.log("*****",userData)
-      fetch(url,{
-        method:'POST',
-        headers: {
-          "Content-Type": "application/json"
+  constructor() {
+    super();
+    this.state = {
+      typeOfLog: '',
+      // userType: '',
+      activePage: '',
+      email: '',
+      password: '',
+      errorMessage: null,
+      userType: undefined,
+      items: [
+        {
+          label: 'Student',
+          value: 'student',
         },
-        body: JSON.stringify(userData)
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        this.setState({
-          activePage:"profile"
-        }, () => {
-          console.log(this.state.activePage)
-        })
-        // this.setter(data);
-        // console.log(`user's Data:${data}`)
-        
-      })
-      .catch(error => console.log(error))
+        {
+          label: 'Tutor',
+          value: 'tutor',
+        },
+      ],
+      test: undefined,
+    }
+  }
+    
+    sendData = (data) => {
       
+      // this.props.setActivePage('profile'); 
     }
     
     handleSignUp = () => {
+      
+      createUser = () => {
+        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+
+        const userData = {
+          email: this.state.email,
+          type: this.state.userType
+        }
+
+        const url = API_URL + '/users';
+
+        const oldThis = this;
+        
+        fetch(url,{
+          method:'POST',
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(userData)
+        })
+        .then(response => response.json())
+        .then((data) => {
+          console.log("ANA DATA :");
+          console.log(data);
+          // this.props.signedUpUser(data);
+          // console.log("*&*&*&*&", oldThis == this);
+          oldThis.setState({test: data})
+          console.log("after")
+
+        })
+        .catch(error => console.log(error));
+      }
 
 
-      const createUser = this.createUser;
+      
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => {
-          createUser();
           console.log('User sign up!!!!');
+          createUser();
         })
         .catch(error => this.setState({ errorMessage: error.message }))
     }
@@ -116,7 +120,8 @@ export default class Logs extends React.Component {
       console.log('prrrroooofile ',this.state.activePage);
       return(
         <View>
-          {this.state.activePage === 'profile' ? <Profile/> : 
+          {
+            // this.state.activePage === 'profile' ? <Profile/> : 
            this.state.typeOfLog === 'sign-up' ? <Text>Sign Up</Text>: <Text>Sign In</Text> }
           <TextInput
             placeholder="Email"
@@ -161,7 +166,6 @@ export default class Logs extends React.Component {
             <Button  title="Sign in" onPress={this.handleSignIn} />
           }
         </View>
-
       )
     }
 

@@ -17,52 +17,100 @@ export default class App extends React.Component {
     super();
     this.state = {
       isLoggedIn: false, // check if the user loged in ot not 
-      activePage: '', // check the state to render compnent
-      userInfo: undefined,  // get user infomation,
+      activePage: 'tutor', // check the state to render compnent
+      userInfo: undefined,  // get user infomation from users table
+      userData: undefined, // get user infomation from userType table
       name: 'test',
-      email: ''
+      email: '',
+      signUp: false,
     }
   }
 
   // check if the user logged in or out
   componentDidMount() {
-
-
-    setIsLoggedIn = () => {
-      this.setState({
-        isLoggedIn: true
-      })
-      console.log ("@@@@ user is Loged in", this.state.isLoggedIn)
-    }
-
-    getUser = () => {
-      console.log(`${API_URL}/users/${this.state.email}`)
-      fetch(`${API_URL}/users/${this.state.email}`)
-      .then(response => response.json())
-      .then(data => {
-        console.log('fetch user data', data.type )
-        if (data.type === 'student') {
-          this.setActivePage('student');
-        } else {
-          this.setActivePage('tutor');
-        }
-      })
-      .catch(error => console.log('@@@#####',error))
-    }
-
+    const setIsLoggedIn = this.setIsLoggedIn;
+    const getUserInfo = this.getUserInfo;
+    const setUserEmail = this.setUserEmail;
+    
     firebase.initializeApp(config);
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
+        // console.log(user)
         setIsLoggedIn();
-        // getUser();
+        setUserEmail(user.email);
+        getUserInfo();
         // console.log(user);
       } else {
         console.log('no user');
       }
     });
+
+
+
+    // setIsLoggedIn = () => {
+    //   this.setState({
+    //     isLoggedIn: true
+    //   })
+    //   console.log ("@@@@ user is Loged in", this.state.isLoggedIn)
+    // }
+
+    // getUser = () => {
+    //   console.log(`${API_URL}/users/${this.state.email}`)
+    //   fetch(`${API_URL}/users/${this.state.email}`)
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     console.log('fetch user data', data.type )
+    //     if (data.type === 'student') {
+    //       this.setActivePage('student');
+    //     } else {
+    //       this.setActivePage('tutor');
+    //     }
+    //   })
+    //   .catch(error => console.log('@@@#####',error))
+    // }
     
   }
- 
+
+  setUserEmail = (email) => {
+    this.setState({email})
+    console.log(this.state.email)
+  }
+
+  setIsLoggedIn = () => {
+    this.setState({
+      isLoggedIn: true
+    })
+    console.log ("@@@@ user is Loged in", this.state.isLoggedIn)
+  }
+
+  getUserInfo = () => {
+    fetch(`${API_URL}/users/${this.state.email}`)
+    .then(response => response.json())
+    .then(data => {
+      this.setState({ userInfo: data })
+      console.log(data)
+      console.log('fetch user data', data.type )
+      this.getUserData();
+      if (data.type === 'student') {
+        this.setActivePage('student');
+      } else {
+        this.setActivePage('tutor');
+      }
+    })
+    .catch(error => console.log(error))
+  }
+
+  getUserData = () => {
+    console.log(`${API_URL}/${this.state.userInfo.type}s/${this.state.userInfo.id}`)
+    // fetch(`${API_URL}/${this.state.userInfo.type}s/${this.state.userInfo.id}`)
+    // .then(response => response.json())
+    // .then(data => {
+    //   this.setState({ userData : data})
+    //   console.log('fetch user data', data )
+    // })
+    // .catch(error => console.log(error))
+  } 
+
   handleSignOut = () => {
     firebase.auth().signOut().then(() => {
       console.log('sign out!!!')
@@ -86,74 +134,45 @@ export default class App extends React.Component {
   }
   
   setActivePage = (activePage) => {
-    this.setState({activePage})
+    this.setState({activePage}, () => {console.log("hi keefeek : " , this.state.activePage)})
+    // console.log("hi keefeek : " , this.state.activePage);
   }
 
-  handleSignUp = () => {
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => {
-        console.log('User sign up!!!!');
-      })
-      .catch(error => this.setState({ errorMessage: error.message }))
+  // handleSignUp = () => {
+  //   firebase
+  //     .auth()
+  //     .createUserWithEmailAndPassword(this.state.email, this.state.password)
+  //     .then(() => {
+  //       console.log('User sign up!!!!');
+  //     })
+  //     .catch(error => this.setState({ errorMessage: error.message }))
+  // }
+
+
+renderActivePage = () => {
+  if(this.state.activePage === 'student'){
+    return <Student userInfo={this.state.userInfo} userData={this.state.userData}/>
+  } else if (this.state.activePage === 'tutor'){
+       return <Tutors userInfo={this.state.userInfo} userData={this.state.userData}/>
+  } else if (this.state.activePage === 'profile'){
+     return <Profile userInfo = {this.state.userInfo}/>
   }
+}
 
+signedUpUser = (userInfo) => {
+  this.setState({userInfo});
 
-  
+  console.log('&&&&&&&&& ^^^^^^^^ ',this.state.userInfo)
+}
   render() {
     return (
         
-          (this.state.isLoggedIn) ? 
-            ((this.state.activePage === 'student') ? 
-            <Student/>
-            :
-            <Tutors/>)
-          :
-          <Logs/>
-        //  <ListOfTutors name={this.state.name}/> 
-        
-
-      /* <Button title="Sign Out" onPress={this.handleSignOut} />
-      <Text>Sign up!</Text>
-  
-      <TextInput
-        placeholder="Email"
-        autoCapitalize="none"
-        // style={styles.textInput}
-        onChangeText={email => this.setState({ email })}
-        value={this.state.email}
-      />
-      <TextInput
-        secureTextEntry
-        placeholder="Password"
-        autoCapitalize="none"
-        // style={styles.textInput}
-        onChangeText={password => this.setState({ password })}
-        value={this.state.password}
-      />
-      <Button title="Sign Up" onPress={this.handleSignUp} />
-*/
-
-      /* <Button title="Sign Out" onPress={this.handleSignOut} />
-
-      <TextInput
-        placeholder="Email"
-        autoCapitalize="none"
-        // style={styles.textInput}
-        onChangeText={email => this.setState({ email })}
-        value={this.state.email}
-      />
-      <TextInput
-        secureTextEntry
-        placeholder="Password"
-        autoCapitalize="none"
-        // style={styles.textInput}
-        onChangeText={password => this.setState({ password })}
-        value={this.state.password}
-      />
-      
-      <Button title="Sign in" onPress={this.handleSignIn}/>  */
+            (this.state.isLoggedIn) ? 
+            (this.renderActivePage()) : <Logs setIsLoggedIn={this.setIsLoggedIn.bind(this)} 
+                                              setActivePage ={this.setActivePage.bind(this)}
+                                              signedUpUser={this.signedUpUser.bind(this)}
+                                            />
+ 
     );
   }
 }

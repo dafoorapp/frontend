@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View, ScrollView} from 'react-native';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import Map from './Map';
 import ReqForm from './ReqForm';
@@ -12,10 +12,12 @@ class MapScreen extends React.Component {
         // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         //   <Text>MAP!!!!!</Text>
         // </View>
+        <ScrollView style={ styles.boxOne }>
         <View style={styles.container}>
           <Map/>
           <ReqForm/>
         </View>
+        </ScrollView>
       );
     }
   }
@@ -68,6 +70,7 @@ export default class Student extends React.Component {
 
   render() {
     return (
+      
         <StudentsTab></StudentsTab>
     );
   }

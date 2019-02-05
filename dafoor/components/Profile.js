@@ -6,6 +6,8 @@ import { Button, ThemeProvider} from 'react-native-elements';
 import { Input , ButtonGroup } from 'react-native-elements';
 import firebase from 'firebase';
 
+const API_URL = 'http://localhost:3000';
+
 export default class Profile extends React.Component {
     constructor(){
       super();
@@ -16,6 +18,9 @@ export default class Profile extends React.Component {
         latitude:null,
         longitude:null,
         location : null,
+        subject:'',
+        price: '',
+        
         error:'',
         gender: undefined,
             items: [
@@ -51,6 +56,46 @@ export default class Profile extends React.Component {
       
     }
 
+    createProfile = () => {
+      const url = API_URL + '/' + this.props.userInfo.type;
+      let userData ;
+      const location = `${this.state.latitude} ${this.state.longitude}`;
+      console.log("%%%%",location);
+      if(this.props.userInfo.type === 'student'){
+        userData = {
+          name: this.state.name,
+          phone_number: this.state.phone_number,
+          gender: this.state.gender,
+          location: location,
+          user_id: this.props.userInfo.user_id
+        }
+      }else if(this.props.userInfo.type === 'tutor'){
+        userData = {
+          name: this.state.name,
+          phone_number: this.state.phone_number,
+          gender: this.state.gender,
+          location: location,
+          subject: this.state.subject,
+          price: this.state.price,
+          user_id: this.props.userInfo.user_id
+        }
+      }
+      console.log("*****",userData)
+      fetch(url,{
+        method:'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+
+      })
+      .catch(error => console.log(error))
+    }
+    
     // handleChange(event){
     //   const currentInput = event.target.name;
     //   const newValue = event.target.value;
@@ -117,7 +162,7 @@ export default class Profile extends React.Component {
           />
 
           {/* the buttons gonna be displayed based on a conditional */}
-          <Button style = {styles.button}title="Submit!" /> 
+          <Button style = {styles.button}title="Submit!" onPress = {() => this.createProfile()} /> 
           <Button title="Edit!" />    
 
           <Button title = "sign out" onPress = {this.handleSignOut} />    
