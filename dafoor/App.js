@@ -91,6 +91,7 @@ export default class App extends React.Component {
       console.log(data)
       console.log('fetch user data', data.type )
       this.getUserData();
+      this.setIsLoggedIn();
       if (data.type === 'student') {
         this.setActivePage('student');
       } else {
