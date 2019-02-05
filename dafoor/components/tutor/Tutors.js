@@ -5,6 +5,34 @@ import Requests from '../Requests';
 import ActiveReq from './ActiveReq';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 
+  const tab = createBottomTabNavigator({
+      ActiveReq: { screen: ActiveReq },
+      Requests: { screen: Requests },
+      Profile: { screen: Profile },
+  });
+
+  const TutorsTab = createAppContainer(tab);
+
+  export default class Tutors extends React.Component {
+
+    render() {
+      return (
+        <TutorsTab></TutorsTab>
+      );
+    }
+  }
+    
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });
+
+
 // class MapScreen extends React.Component {
 //     render() {
 //       return (
@@ -38,37 +66,8 @@ import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 //     }
 //   }
 
-
-  const tab = createBottomTabNavigator({
-      ActiveReq: { screen: ActiveReq },
-      Requests: { screen: Requests },
-      Profile: { screen: Profile },
-  });
-
-  const TutorsTab = createAppContainer(tab);
-
-  export default class Tutors extends React.Component {
-
-    render() {
-      return (
-        <TutorsTab></TutorsTab>
-      );
-    }
-  }
-
-
-    
-  // export default createAppContainer(createBottomTabNavigator({
-  //   ActiveReq: { screen: MapScreen },
-  //   Requests: { screen: RequestsScreen },
-  //   Profile: { screen: ProfileScreen },
-  // }))
-
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
+// export default createAppContainer(createBottomTabNavigator({
+//   ActiveReq: { screen: MapScreen },
+//   Requests: { screen: RequestsScreen },
+//   Profile: { screen: ProfileScreen },
+// }))

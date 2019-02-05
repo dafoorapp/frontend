@@ -96,6 +96,7 @@ export default class Student extends React.Component {
 
   render() {
     return (
+      
         <StudentsTab></StudentsTab>
     );
   }
