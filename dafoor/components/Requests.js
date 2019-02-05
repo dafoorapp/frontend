@@ -7,50 +7,34 @@ export default class Requests extends React.Component {
     constructor(){
       super();
       this.state = {
-        requests : [
-          {
-            name: 'Amy Farha',
-            subject: 'math',
-            cost: '200',
-            date: '2019/1/1'
-
-          },
-          {
-            name: 'Chris Jackson',
-            subject: 'computer',
-            cost: '150',
-            date: '2019/1/4'
-          },
-        ],
+        requests : [],
       }
     }  
 
-    // renderItem = ({ item }) => (
-    //     <ListItem
-    //       title={item.name}
-    //       subtitle={item.subtitle}
-    //       leftAvatar={{ source: { uri: item.avatar_url } }}
-    //     />
-    //   )
-    
-    // renderMap(list) {
-    //   const listMap =  list.map( l => {
-    //     console.log(l.name);
-    //     return l.name;
-    //   });
-
-    //   // console.log(listMap);
+    // componentDidMount(){
+      
+    //   fetch('http://localhost:3000/requests/students/1')
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     console.log(data);
+    //     this.setState({
+    //       requests: data
+    //     })
+    //   })
+    //   .catch(error => console.log(error))
     // }
 
     renderAlbums() {
       return this.state.requests.map((el,index) => {
            return (
              <View key={index}>
-               <Text>Name: {el.name}</Text>
+               {/* <Text>Name: {el.name}</Text> */}
                <Text>Date: {el.date}</Text>
                <Text>Cost: {el.cost}</Text>
-               <Text>Subject: {el.subject}</Text>
-             </View>
+               <Text>Subject: {el.subject}</Text> 
+               <Text>duration: {el.duration}</Text> 
+               <Text>tutor name: {el.name}</Text>
+              </View>
               //  <Map/>
            );
        });
