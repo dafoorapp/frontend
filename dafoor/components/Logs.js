@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import firebase from 'firebase';
 import Profile from './Profile';
 import RNPickerSelect from 'react-native-picker-select';
+import axios from 'axios';
 // import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 const API_URL = 'http://localhost:3000';
 
@@ -37,49 +38,56 @@ export default class Logs extends React.Component {
       
       // this.props.setActivePage('profile'); 
     }
-    
-    handleSignUp = () => {
-      
-      createUser = () => {
-        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
 
-        const userData = {
-          email: this.state.email,
-          type: this.state.userType
-        }
+    createUser = () => {
+      console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
 
-        const url = API_URL + '/users';
-
-        const oldThis = this;
-        
-        fetch(url,{
-          method:'POST',
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(userData)
-        })
-        .then(response => response.json())
-        .then((data) => {
-          console.log("ANA DATA :");
-          console.log(data);
-          // this.props.signedUpUser(data);
-          // console.log("*&*&*&*&", oldThis == this);
-          oldThis.setState({test: data})
-          console.log("after")
-
-        })
-        .catch(error => console.log(error));
+      const userData = {
+        email: this.state.email,
+        type: this.state.userType
       }
 
+      const url = API_URL + '/users';
 
+      axios.post(url, userData)
+        .then(data => {
+          console.log("DAATAAA", Object.keys(data.data).join(", "))
+          
+            // console.log("dncknscknsdkcnskdn",this.state.test);
+            this.props.signedUpUser(data.data);
+            
+        
+          console.log('state set')
+        })
+        .catch(console.log)
       
+      // fetch(url,{
+      //   method:'POST',
+      //   headers: {
+      //     "Content-Type": "application/json"
+      //   },
+      //   body: JSON.stringify(userData)
+      // })
+      // .then(response => response.json())
+      // .then((data) => {
+      //   console.log("ANA DATA :");
+      //   console.log(data);
+      //   // this.props.signedUpUser(data);
+      //   // console.log("*&*&*&*&", oldThis == this);
+      //   oldThis.setState({test: data})
+      //   console.log("after")
+
+      // })
+      // .catch(error => console.log(error));
+    }
+    
+    handleSignUp = () => {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => {
           console.log('User sign up!!!!');
-          createUser();
+          this.createUser();
         })
         .catch(error => this.setState({ errorMessage: error.message }))
     }

@@ -36,7 +36,7 @@ export default class App extends React.Component {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         // console.log(user)
-        setIsLoggedIn();
+        // setIsLoggedIn();
         setUserEmail(user.email);
         getUserInfo();
         // console.log(user);
@@ -161,8 +161,12 @@ renderActivePage = () => {
 
 signedUpUser = (userInfo) => {
   this.setState({userInfo});
-
-  console.log('&&&&&&&&& ^^^^^^^^ ',this.state.userInfo)
+  this.setActivePage('profile');
+  console.log('&&&&&&&&& ^^^^^^^^ ',this.state.userInfo);
+  this.setIsLoggedIn();
+  // Object.keys(this.state.userInfo).forEach(el => {
+  //   console.log(el + ':' + this.state.userInfo[el])
+  // })
 }
   render() {
     return (
