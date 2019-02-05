@@ -40,7 +40,7 @@ export default class App extends React.Component {
       fetch(`${API_URL}/users/${this.state.email}`)
       .then(response => response.json())
       .then(data => {
-        console.log('fetch user data', data.type )
+        // console.log('fetch user data', data.type )
         if (data.type === 'student') {
           this.setActivePage('student');
         } else {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import { Button } from 'react-native-elements';
 export default class ReqForm extends React.Component {
     constructor(){
       super();
@@ -82,6 +83,7 @@ export default class ReqForm extends React.Component {
                     }}
                     />
                     </View>
+                    <Button title="Make Req" onPress={() => this.props.makeRequest()} />
         </View>
       );
     }
@@ -99,9 +101,9 @@ export default class ReqForm extends React.Component {
       width: 130
     },
     text:{
-      fontSize:20,
+      fontSize:15,
       width:220,
-      fontWeight:'bold',
-      marginTop:100
+      // fontWeight:'bold',
+      marginTop:10
     }
   });
