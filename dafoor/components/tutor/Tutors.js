@@ -20,7 +20,8 @@ class ActiveReqScreen extends React.Component {
   class ProfileScreen extends React.Component {
     render() {
       return (
-        <Profile userInfo={this.props.userInfo} userData={this.props.userData}/>
+        // <Profile userInfo={this.props.userInfo} userData={this.props.userData}/>
+        <Profile/>
         // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         //   <Text>Profile!!!!!!</Text>
         // </View>
