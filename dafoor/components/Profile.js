@@ -4,6 +4,9 @@ import { StyleSheet, Text, View , TextInput, Picker} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { Button, ThemeProvider} from 'react-native-elements';
 import { Input , ButtonGroup } from 'react-native-elements';
+import firebase from 'firebase';
+
+const API_URL = 'http://localhost:3000';
 
 export default class Profile extends React.Component {
     constructor(){
@@ -15,6 +18,9 @@ export default class Profile extends React.Component {
         latitude:null,
         longitude:null,
         location : null,
+        subject:'',
+        price: '',
+        
         error:'',
         gender: undefined,
             items: [
@@ -47,8 +53,51 @@ export default class Profile extends React.Component {
         (error) => this.setState({ error: error.message }),
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
       );
+      
     }
 
+    createProfile = () => {
+      console.log("Ana USERINFOO ",this.props.userInfo)
+      const url = API_URL + '/' + this.props.userInfo.type + 's';
+      console.log(url);
+      let userData ;
+      const location = `${this.state.latitude} ${this.state.longitude}`;
+      console.log("%%%%",location);
+      if(this.props.userInfo.type === 'student'){
+        userData = {
+          name: this.state.name,
+          phone_number: this.state.phone_number,
+          gender: this.state.gender,
+          location: location,
+          user_id: this.props.userInfo.user_id
+        }
+      }else if(this.props.userInfo.type === 'tutor'){
+        userData = {
+          name: this.state.name,
+          phone_number: this.state.phone_number,
+          gender: this.state.gender,
+          location: location,
+          subject: this.state.subject,
+          price: this.state.price,
+          user_id: this.props.userInfo.user_id
+        }
+      }
+      console.log("*****",userData)
+      fetch(url,{
+        method:'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+
+      })
+      .catch(error => console.log(error))
+    }
+    
     // handleChange(event){
     //   const currentInput = event.target.name;
     //   const newValue = event.target.value;
@@ -66,6 +115,13 @@ export default class Profile extends React.Component {
       
     }
 
+    handleSignOut = () => {
+      firebase.auth().signOut().then(() => {
+        console.log('sign out!!!')
+        this.setState({isLoggedIn: false})
+      });
+    }
+
 
     render() {
       return (
@@ -73,7 +129,12 @@ export default class Profile extends React.Component {
         <View style={styles.container}>
          
          <Input style = {styles.input}
-          onChangeText = {(name) => console.log(name)}
+          name="name"
+          onChangeText={(value) => {
+            this.setState({
+                name: value,
+            } , () => console.log( "Ana name" ,this.state.name));
+        }}
           placeholder='name'
           leftIcon={{ type: 'font-awesome', name: 'user', marginRight: 20}}
           errorMessage='Enter your name here' 
@@ -83,32 +144,33 @@ export default class Profile extends React.Component {
                     placeholder={{
                         
                     }}
+                    // name="gender"
                     items={this.state.items}
                     onValueChange={(value) => {
                         this.setState({
                             gender: value,
-                        } , () => console.log(this.state.gender));
+                        } , () => console.log( "Ana gender" ,this.state.gender));
                     }}
                     />
 
-         {/* <Input style = {styles.input}
-          onChangeText = {(gender) => console.log(gender)}
-          placeholder='Gender'
-          leftIcon={{ type: 'font-awesome', name: 'male' ,marginRight: 20}}
-          errorMessage='Enter your Gender here' 
-          /> */}
-
          <Input style = {styles.input}
          keyboardType = 'numeric'
-          onChangeText = {(phone_number) => console.log(phone_number)}
+          name="phone_number"
+          onChangeText={(value) => {
+            this.setState({
+                phone_number: value,
+            } , () => console.log( "Ana phone_number" ,this.state.phone_number));
+        }}
           placeholder='####'
           leftIcon={{ type: 'font-awesome', name: 'phone',marginRight: 20 }}
           errorMessage='Enter your phone here' 
           />
 
           {/* the buttons gonna be displayed based on a conditional */}
-          <Button style = {styles.button}title="Submit!" /> 
-          <Button title="Edit!" />        
+          <Button style = {styles.button}title="Submit!" onPress = {() => this.createProfile()} /> 
+          <Button title="Edit!" />    
+
+          <Button title = "sign out" onPress = {this.handleSignOut} />    
         </View>
       );
     }
@@ -129,8 +191,7 @@ export default class Profile extends React.Component {
       borderWidth: 1.0,
     },
 
-    input: {
-      
+    input: {  
       width: 100
     }
    
