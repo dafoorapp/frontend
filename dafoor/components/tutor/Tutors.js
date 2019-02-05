@@ -5,66 +5,56 @@ import Requests from '../Requests';
 import ActiveReq from './ActiveReq';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 
-  const tab = createBottomTabNavigator({
-      ActiveReq: { screen: ActiveReq },
-      Requests: { screen: Requests },
-      Profile: { screen: Profile },
-  });
 
-  const TutorsTab = createAppContainer(tab);
+class ActiveReqScreen extends React.Component {
+    render() {
+      return (
+        <ActiveReq />
+        // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        //   <Text>MAP!!!!!</Text>
+        // </View>
+      );
+    }
+  }
+  
+  class ProfileScreen extends React.Component {
+    render() {
+      return (
+        <Profile userInfo={this.props.userInfo} userData={this.props.userData}/>
+        // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        //   <Text>Profile!!!!!!</Text>
+        // </View>
+      );
+    }
+  }
+
+  class RequestsScreen extends React.Component {
+    render() {
+      return (
+        <Requests/>
+        // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        //   <Text>Requests!!!!!!</Text>
+        // </View>
+      );
+    }
+  }
+
+
+  const tab = createBottomTabNavigator({
+    ActiveReq: { screen: ActiveReqScreen },
+    Requests: { screen: RequestsScreen },
+    Profile: { screen: ProfileScreen },
+});
+
+const TutorsTab = createAppContainer(tab);
 
   export default class Tutors extends React.Component {
-
     render() {
       return (
         <TutorsTab></TutorsTab>
       );
     }
   }
-    
-
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
-
-
-// class MapScreen extends React.Component {
-//     render() {
-//       return (
-//         // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//         //   <Text>MAP!!!!!</Text>
-//         // </View>
-//         <ActiveReq/>
-//       );
-//     }
-//   }
-  
-//   class ProfileScreen extends React.Component {
-//     render() {
-//       return (
-//         // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//         //   <Text>Profile!!!!!!</Text>
-//         // </View>
-//         <Profile/>
-//       );
-//     }
-//   }
-
-//   class RequestsScreen extends React.Component {
-//     render() {
-//       return (
-//         // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//         //   <Text>Requests!!!!!!</Text>
-//         // </View>
-//         <Requests/>
-//       );
-//     }
-//   }
 
 // export default createAppContainer(createBottomTabNavigator({
 //   ActiveReq: { screen: MapScreen },

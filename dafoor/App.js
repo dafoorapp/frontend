@@ -7,6 +7,7 @@ import Tutors from './components/tutor/Tutors';
 import Profile from './components/Profile';
 import firebase from 'firebase';
 import ListOfTutors from './components/student/ListOfTutors';
+import ActiveReq from './components/tutor/ActiveReq';
 
 
 const config = require('./components/firebase/config');
@@ -150,14 +151,17 @@ export default class App extends React.Component {
   
   render() {
     return (
+      // <Text></Text>
         
-          (this.state.isLoggedIn) ? 
-            ((this.state.activePage === 'student') ? 
-            <Student userInfo={this.state.userInfo} userData={this.state.userData}/>
-            :
-            <Tutors userInfo={this.state.userInfo} userData={this.state.userData}/>)
-          :
-          <Logs setIsLoggedIn={this.setIsLoggedIn.bind(this)}/>
+          // (this.state.isLoggedIn) ? 
+          //   ((this.state.activePage === 'student') ? 
+          //   <Student userInfo={this.state.userInfo} userData={this.state.userData}/>
+          //   :
+          //   <Tutors userInfo={this.state.userInfo} userData={this.state.userData}/>)
+          // :
+          this.state.userInfo ? 
+          <ActiveReq userInfo={this.state.userInfo}/> : <Text></Text>
+          // <Logs setIsLoggedIn={this.setIsLoggedIn.bind(this)}/>
         //  <ListOfTutors name={this.state.name}/> 
         
 
