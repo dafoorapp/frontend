@@ -57,7 +57,9 @@ export default class Profile extends React.Component {
     }
 
     createProfile = () => {
-      const url = API_URL + '/' + this.props.userInfo.type;
+      console.log("Ana USERINFOO ",this.props.userInfo)
+      const url = API_URL + '/' + this.props.userInfo.type + 's';
+      console.log(url);
       let userData ;
       const location = `${this.state.latitude} ${this.state.longitude}`;
       console.log("%%%%",location);
@@ -127,7 +129,12 @@ export default class Profile extends React.Component {
         <View style={styles.container}>
          
          <Input style = {styles.input}
-          onChangeText = {(name) => console.log(name)}
+          name="name"
+          onChangeText={(value) => {
+            this.setState({
+                name: value,
+            } , () => console.log( "Ana name" ,this.state.name));
+        }}
           placeholder='name'
           leftIcon={{ type: 'font-awesome', name: 'user', marginRight: 20}}
           errorMessage='Enter your name here' 
@@ -137,25 +144,23 @@ export default class Profile extends React.Component {
                     placeholder={{
                         
                     }}
-                    name="gender"
+                    // name="gender"
                     items={this.state.items}
                     onValueChange={(value) => {
                         this.setState({
                             gender: value,
-                        } , () => console.log(this.state.gender));
+                        } , () => console.log( "Ana gender" ,this.state.gender));
                     }}
                     />
 
-         {/* <Input style = {styles.input}
-          onChangeText = {(gender) => console.log(gender)}
-          placeholder='Gender'
-          leftIcon={{ type: 'font-awesome', name: 'male' ,marginRight: 20}}
-          errorMessage='Enter your Gender here' 
-          /> */}
-
          <Input style = {styles.input}
          keyboardType = 'numeric'
-          onChangeText = {(phone_number) => console.log(phone_number)}
+          name="phone_number"
+          onChangeText={(value) => {
+            this.setState({
+                phone_number: value,
+            } , () => console.log( "Ana phone_number" ,this.state.phone_number));
+        }}
           placeholder='####'
           leftIcon={{ type: 'font-awesome', name: 'phone',marginRight: 20 }}
           errorMessage='Enter your phone here' 
