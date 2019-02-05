@@ -7,6 +7,7 @@ import Tutors from './components/tutor/Tutors';
 import Profile from './components/Profile';
 import firebase from 'firebase';
 import ListOfTutors from './components/student/ListOfTutors';
+import ActiveReq from './components/tutor/ActiveReq';
 
 const config = require('./components/firebase/config');
 
@@ -171,6 +172,7 @@ signedUpUser = (userInfo) => {
 }
   render() {
     return (
+      // <Text></Text>
         
             (this.state.isLoggedIn) ? 
             (this.renderActivePage()) : <Logs setIsLoggedIn={this.setIsLoggedIn.bind(this)} 
