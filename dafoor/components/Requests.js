@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, ListView, FlatList, List} from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Map from './student/Map';
 
+const API_URL = 'http://localhost:3000';
+
 export default class Requests extends React.Component {
     constructor(props){
       super(props);
@@ -11,18 +13,17 @@ export default class Requests extends React.Component {
       }
     }  
 
-    // componentDidMount(){
-      
-    //   fetch('http://localhost:3000/requests/students/1')
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     console.log(data);
-    //     this.setState({
-    //       requests: data
-    //     })
-    //   })
-    //   .catch(error => console.log(error))
-    // }
+    componentDidMount(){
+      fetch(`${API_URL}/requests/${this.props.screenProps.userInfo.type}s/${this.props.screenProps.userInfo.id}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.setState({
+          requests: data
+        })
+      })
+      .catch(error => console.log(error))
+    }
 
     renderRequests(requests) {
       // console.log("requestsrequestsrequestsrequests",requests);
