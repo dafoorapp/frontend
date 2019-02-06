@@ -9,12 +9,13 @@ import firebase from 'firebase';
 const API_URL = 'http://localhost:3000';
 
 export default class Profile extends React.Component {
-    constructor(){
-      super();
+    constructor(props){
+      super(props);
+      console.log('hiiiiiii', props.screenProps.userData.name)
       this.state = {
-        name:'',
+        name: props.screenProps.userData ? props.screenProps.userData.name : '',
         // gender:'',
-        phone_number:'',
+        phone_number: props.screenProps.userData ? props.screenProps.userData.phone_number : '',
         latitude:null,
         longitude:null,
         location : null,
@@ -129,6 +130,7 @@ export default class Profile extends React.Component {
         <View style={styles.container}>
          
          <Input style = {styles.input}
+          value={this.state.name}
           name="name"
           onChangeText={(value) => {
             this.setState({
@@ -154,6 +156,7 @@ export default class Profile extends React.Component {
                     />
 
          <Input style = {styles.input}
+         value={this.state.phone_number}
          keyboardType = 'numeric'
           name="phone_number"
           onChangeText={(value) => {
