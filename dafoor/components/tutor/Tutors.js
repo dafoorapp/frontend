@@ -6,45 +6,45 @@ import ActiveReq from './ActiveReq';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 
 
-class ActiveReqScreen extends React.Component {
-    render() {
-      return (
-        <ActiveReq />
-        // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        //   <Text>MAP!!!!!</Text>
-        // </View>
-      );
-    }
-  }
+// class ActiveReqScreen extends React.Component {
+//     render() {
+//       return (
+//         <ActiveReq/>
+//         // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+//         //   <Text>MAP!!!!!</Text>
+//         // </View>
+//       );
+//     }
+//   }
   
-  class ProfileScreen extends React.Component {
-    render() {
-      return (
-        // <Profile userInfo={this.props.userInfo} userData={this.props.userData}/>
-        <Profile/>
-        // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        //   <Text>Profile!!!!!!</Text>
-        // </View>
-      );
-    }
-  }
+//   class ProfileScreen extends React.Component {
+//     render() {
+//       return (
+//         // <Profile userInfo={this.props.userInfo} userData={this.props.userData}/>
+//         <Profile/>
+//         // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+//         //   <Text>Profile!!!!!!</Text>
+//         // </View>
+//       );
+//     }
+//   }
 
-  class RequestsScreen extends React.Component {
-    render() {
-      return (
-        <Requests/>
-        // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        //   <Text>Requests!!!!!!</Text>
-        // </View>
-      );
-    }
-  }
+//   class RequestsScreen extends React.Component {
+//     render() {
+//       return (
+//         <Requests/>
+//         // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+//         //   <Text>Requests!!!!!!</Text>
+//         // </View>
+//       );
+//     }
+//   }
 
 
   const tab = createBottomTabNavigator({
-    ActiveReq: { screen: ActiveReqScreen },
-    Requests: { screen: RequestsScreen },
-    Profile: { screen: ProfileScreen },
+    ActiveReq: { screen: ActiveReq },
+    Requests: { screen: Requests },
+    Profile: { screen: Profile },
 });
 
 const TutorsTab = createAppContainer(tab);
@@ -52,7 +52,7 @@ const TutorsTab = createAppContainer(tab);
   export default class Tutors extends React.Component {
     render() {
       return (
-        <TutorsTab></TutorsTab>
+        <TutorsTab screenProps={{userData:this.props.userData, userInfo:this.props.userInfo}}></TutorsTab>
       );
     }
   }

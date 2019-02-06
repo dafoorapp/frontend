@@ -9,10 +9,11 @@ import firebase from 'firebase';
 const API_URL = 'http://localhost:3000';
 
 export default class Profile extends React.Component {
-    constructor(){
-      super();
+    constructor(props){
+      super(props);
+      // console.log('hiiiiiii', props.screenProps.userData.name)
       this.state = {
-        name:'',
+        name: '',
         // gender:'',
         phone_number:'',
         latitude:null,
@@ -62,6 +63,18 @@ export default class Profile extends React.Component {
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
       );
       
+      (this.props.screenProps !== undefined) ?
+      this.setUserData()
+      :
+      ''; 
+
+    }
+
+    setUserData(){
+      this.setState({
+        name: this.props.screenProps.userData.name,
+        phone_number: this.props.screenProps.userData.phone_number,
+      })
     }
 
     createProfile = () => {
@@ -129,6 +142,7 @@ export default class Profile extends React.Component {
           <View> 
           <Input style = {styles.input}
           name="name"
+          value={this.state.name}
           onChangeText={(value) => {
             this.setState({
                 name: value,
@@ -139,6 +153,7 @@ export default class Profile extends React.Component {
           errorMessage='Enter your name here' 
           />
                     <RNPickerSelect
+                    value={this.state.gender}
                     style= {styles.input}
                     placeholder={{
                         label: 'Select a Gender...',
@@ -155,6 +170,7 @@ export default class Profile extends React.Component {
                     />
 
          <Input style = {styles.input}
+         value={this.state.phone_number}
          keyboardType = 'numeric'
           name="phone_number"
           onChangeText={(value) => {
@@ -186,6 +202,7 @@ export default class Profile extends React.Component {
       return(
         <View>
         <Input style = {styles.input}
+        value={this.state.name}
         name="name"
         onChangeText={(value) => {
           this.setState({
@@ -196,7 +213,9 @@ export default class Profile extends React.Component {
         leftIcon={{ type: 'font-awesome', name: 'user', marginRight: 20}}
         errorMessage='Enter your name here' 
         />
+
                   <RNPickerSelect
+                  value={this.state.gender}
                   style= {styles.input}
                   placeholder={{
                       label: 'Select a Gender...',
@@ -213,6 +232,7 @@ export default class Profile extends React.Component {
                   />
 
        <Input style = {styles.input}
+       value={this.state.phone_number}
        keyboardType = 'numeric'
         name="phone_number"
         onChangeText={(value) => {
@@ -226,6 +246,7 @@ export default class Profile extends React.Component {
         />
 
       <CheckBox
+      value={this.state.topics.math}
       center
       title="Math"
       checked={this.state.topics.math}
@@ -236,6 +257,7 @@ export default class Profile extends React.Component {
       }/>
 
       <CheckBox
+      value={this.state.topics.physics}
       center
       title="Physics"
       checked={this.state.topics.physics}
@@ -246,6 +268,7 @@ export default class Profile extends React.Component {
       }/>
 
       <CheckBox
+      value={this.state.topics.computer}
       center
       title="Computer"
       checked={this.state.topics.computer}
