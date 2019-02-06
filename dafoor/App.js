@@ -6,8 +6,8 @@ import Student from './components/student/Student';
 import Tutors from './components/tutor/Tutors';
 import Profile from './components/Profile';
 import firebase from 'firebase';
+
 import ListOfTutors from './components/student/ListOfTutors';
-import ActiveReq from './components/tutor/ActiveReq';
 
 const config = require('./components/firebase/config');
 
@@ -18,7 +18,7 @@ export default class App extends React.Component {
     super();
     this.state = {
       isLoggedIn: false, // check if the user loged in ot not 
-      activePage: '', // check the state to render compnent
+      activePage: 'tutor', // check the state to render compnent
       userInfo: undefined,  // get user infomation from users table
       userData: undefined, // get user infomation from userType table
       name: 'test',
@@ -80,15 +80,11 @@ export default class App extends React.Component {
   setIsLoggedIn = () => {
     this.setState({
       isLoggedIn: true
-    }, () => {
-      console.log ("@@@@ user is Loged in", this.state.isLoggedIn);
     })
-    // console.log ("@@@@ user is Loged in", this.state.isLoggedIn)
+    console.log ("@@@@ user is Loged in", this.state.isLoggedIn)
   }
 
   getUserInfo = () => {
-    // const setIsLoggedIn = this.setIsLoggedIn;
-    console.log(`${API_URL}/users/${this.state.email}`)
     fetch(`${API_URL}/users/${this.state.email}`)
     .then(response => response.json())
     .then(data => {
@@ -96,7 +92,6 @@ export default class App extends React.Component {
       console.log(data)
       console.log('fetch user data', data.type )
       this.getUserData();
-      // setIsLoggedIn();
       if (data.type === 'student') {
         this.setActivePage('student');
       } else {
@@ -108,12 +103,12 @@ export default class App extends React.Component {
 
   getUserData = () => {
     const setIsLoggedIn = this.setIsLoggedIn;
-    // console.log(`${API_URL}/${this.state.userInfo.type}s/${this.state.userInfo.id}`);
+    console.log(`${API_URL}/${this.state.userInfo.type}s/${this.state.userInfo.id}`)
     fetch(`${API_URL}/${this.state.userInfo.type}s/${this.state.userInfo.id}`)
     .then(response => response.json())
     .then(data => {
       setIsLoggedIn();
-      this.setState({ userData : data })
+      this.setState({ userData : data})
       console.log('fetch user data', data )
     })
     .catch(error => console.log(error))
@@ -157,23 +152,35 @@ export default class App extends React.Component {
   // }
 
 
+// renderActivePage = () => {
+//   if(this.state.activePage === 'profile'){
+//     return <Profile userInfo = {this.state.userInfo} setActivePage = {this.setActivePage.bind(this)} userData = {this.state.userData} />
+//   } else if (this.state.activePage === 'tutor'){
+//        return <Tutors userInfo={this.state.userInfo} userData={this.state.userData}/>
+//   } else if (this.state.activePage === 'student'){
+//     return <Student userInfo={this.state.userInfo} userData={this.state.userData}/>
+     
+//   }
+// }
+
 renderActivePage = () => {
-  if(this.state.activePage === 'student'){
+  if(this.state.activePage === 'profile'){
     return (
-      (this.state.userData) ? <Student userInfo={this.state.userInfo} userData={this.state.userData}/> : <Text></Text>
+      (this.state.userData) ?
+     <Profile userInfo = {this.state.userInfo} userData = {this.state.userData}/> : <Text></Text>
     )
   } else if (this.state.activePage === 'tutor'){
        return (
         (this.state.userData) ?
-       <Tutors userInfo={this.state.userInfo} userData={this.state.userData}/> : <Text></Text>
+       <Tutors userInfo={this.state.userInfo} userData={this.state.userData} isLoggedIn= {this.state.isLoggedIn}/> : <Text></Text>
        )
-  } else if (this.state.activePage === 'profile'){
+  } else if (this.state.activePage === 'student'){
      return (
-      (this.state.userData) ?
-     <Profile userInfo = {this.state.userInfo}/> : <Text></Text>
+      (this.state.userData) ? <Student userInfo={this.state.userInfo} userData={this.state.userData}/> : <Text></Text>
+
      )
   }
-}
+} 
 
 signedUpUser = (userInfo) => {
   this.setState({userInfo});
@@ -186,7 +193,6 @@ signedUpUser = (userInfo) => {
 }
   render() {
     return (
-      // <Text></Text>
         
             (this.state.isLoggedIn) ? 
             (this.renderActivePage()) : <Logs setIsLoggedIn={this.setIsLoggedIn.bind(this)} 

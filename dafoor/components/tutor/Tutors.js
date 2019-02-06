@@ -52,7 +52,7 @@ const TutorsTab = createAppContainer(tab);
   export default class Tutors extends React.Component {
     render() {
       return (
-        <TutorsTab screenProps={{userData:this.props.userData, userInfo:this.props.userInfo}}></TutorsTab>
+        <TutorsTab screenProps={{userData:this.props.userData, userInfo:this.props.userInfo, isLoggedIn: this.props.isLoggedIn}}></TutorsTab>
       );
     }
   }
