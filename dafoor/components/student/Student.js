@@ -125,50 +125,50 @@ class MapTab extends React.Component {
     }
   }
 
-  class RequestsTab extends React.Component  {
-    constructor(props){
-      super(props);
-      this.state = {
-        requests: undefined,
-        userData : props.screenProps.userData,
-        userInfo: props.screenProps.userInfo
-      }
-    }
+  // class RequestsTab extends React.Component  {
+  //   constructor(props){
+  //     super(props);
+  //     this.state = {
+  //       requests: undefined,
+  //       userData : props.screenProps.userData,
+  //       userInfo: props.screenProps.userInfo
+  //     }
+  //   }
 
-    componentDidMount(){
-      fetch(`${API_URL}/requests/students/1`)
-      .then(response => response.json())
-      .then(data => {
-        console.log('jknjsdjwdbjkwndjkwndjwn',data);
-        this.setState({
-          requests: data
-        })
-      })
-      .catch(error => console.log(error))
-    }
+  //   componentDidMount(){
+  //     fetch(`${API_URL}/requests/students/${this.state.userInfo.user_id}`)
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       console.log('jknjsdjwdbjkwndjkwndjwn',data);
+  //       this.setState({
+  //         requests: data
+  //       })
+  //     })
+  //     .catch(error => console.log(error))
+  //   }
 
-    render(){
-      return (
-        (this.state.requests) ?
-        <Requests requests={this.state.requests} userData={this.state.userData} userInfo={this.stats.userInfo}/>
-        :
-        <Text></Text>
-      )
-    }
-  }
+  //   render(){
+  //     return (
+  //       (this.state.requests) ?
+  //       <Requests requests={this.state.requests} userData={this.state.userData} userInfo={this.state.userInfo}/>
+  //       :
+  //       <Text></Text>
+  //     )
+  //   }
+  // }
 
-  class ProfileTab extends React.Component  {
-    render(){
-      return (
-        <Profile userData={this.state.userData}/>
-      )
-    }
-  }
+  // class ProfileTab extends React.Component  {
+  //   render(){
+  //     return (
+  //       <Profile userData={this.props.screenProps.userData} userInfo={this.props.screenProps.userInfo} isLoggedIn={this.props.screenProps.isLoggedIn}/>
+  //     )
+  //   }
+  // }
 
   const MyApp = createBottomTabNavigator({
     Map: { screen: MapTab },
-    Requests: { screen: RequestsTab },
-    Profile: { screen: ProfileTab },
+    Requests: { screen: Requests },
+    Profile: { screen: Profile },
   });
 
 const StudentsTab = createAppContainer(MyApp)
@@ -185,7 +185,7 @@ export default class Student extends React.Component {
   render() {
 // console.log("userData ",this.state.userData)
     return (
-        <StudentsTab screenProps={{userData:this.props.userData, userInfo:this.props.userInfo}}/>
+        <StudentsTab screenProps={{userData:this.state.userData, userInfo:this.state.userInfo, isLoggedIn:this.props.isLoggedIn}}/>
     );
   }
 }

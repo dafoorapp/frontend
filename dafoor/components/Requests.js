@@ -9,9 +9,9 @@ export default class Requests extends React.Component {
     constructor(props){
       super(props);
       this.state = {
-        requests : props.requests,
-        userData: props.userData,
-        userInfo: props.userInfo
+        requests : undefined,
+        userData: props.screenProps.userData,
+        userInfo: props.screenProps.userInfo
       }
     }  
 
@@ -38,7 +38,7 @@ export default class Requests extends React.Component {
                <Text>Cost: {el.cost}</Text>
                <Text>Subject: {el.subject}</Text> 
                <Text>duration: {el.duration}</Text> 
-               <Text>{this.props.screenProps.userInfo.type} name: {el.name}</Text>
+               <Text>{this.state.userInfo.type} name: {el.name}</Text>
               </View>
               //  <Map/>
            );
