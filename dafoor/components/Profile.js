@@ -302,18 +302,21 @@ export default class Profile extends React.Component {
       return (
         <View style={styles.container}>
 
-            {(this.props.screenProps.isLoggedIn === true) ?
+            {
+              (!this.props.newUser) ?
+              
 
-              (this.props.screenProps.userInfo.type === 'student') ?
-                this.studentForm()
-              :
-                this.tutorForm()
-              :
+                 ( (this.props.screenProps.userInfo.type === 'student') ?
+                  this.studentForm()
+                :
+                  this.tutorForm())
+                :
               (this.props.userInfo.type === 'student') ?
               this.studentForm()
               :
                 this.tutorForm()
-              
+          
+                
            }
       
           {/* the buttons gonna be displayed based on a conditional */}
