@@ -37,14 +37,32 @@ export default class Map extends React.Component {
       // console.log('kdnsjsnjnsjfcnsdjcnfsdjnfjksdksmd djsnfjsdnfjs',this.props.requests);
       // const req = this.props.requests;
       // console.log("hhhiiiiii marker",this.state.marker);
-      return this.state.marker.map ((el, index) => {
-          return (<MapView.Marker 
-            key={index}
-            coordinate={{latitude: el.st_x, longitude: el.st_y}}
-          />
-          )
-      }
-      )
+      // console.log("this.state.marker",this.state.marker);
+      // return (
+      // <MapView.Marker 
+      //   key={1}
+      //   coordinate={[{latitude: this.state.marker[1].st_x, longitude:this.state.marker[1].st_y}]}
+      // />
+      // )
+      const arr = this.state.marker.map((el) => {
+        return {coordinates : {latitude: el.st_x, longitude: el.st_y}}
+      });
+      // console.log("arr", arr);
+      return arr.map((marker, index) => {
+        return (<MapView.Marker 
+          key={index}
+          coordinate={marker.coordinates}
+        />
+        )
+      })
+      // return this.state.marker.map((el, index) => {
+      //     return (<MapView.Marker 
+      //       key={index}
+      //       coordinate={arr}
+      //     />
+      //     )
+      // }
+      // )
     }
 
 
@@ -71,6 +89,10 @@ export default class Map extends React.Component {
         />
         })} */}
         {/* {(this.state.marker) ? this.renderMarker() : <Text></Text>} */}
+        {/* <MapView.Marker 
+        key={0}
+        coordinate={{latitude: this.state.marker[0].st_x, longitude:this.state.marker[0].st_y}}
+      /> */}
         {this.renderMarker()}
         </MapView>
         </View>

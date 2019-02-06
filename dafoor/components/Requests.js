@@ -4,10 +4,10 @@ import { ListItem } from 'react-native-elements';
 import Map from './student/Map';
 
 export default class Requests extends React.Component {
-    constructor(){
-      super();
+    constructor(props){
+      super(props);
       this.state = {
-        requests : [],
+        requests : props.requests,
       }
     }  
 
@@ -24,8 +24,9 @@ export default class Requests extends React.Component {
     //   .catch(error => console.log(error))
     // }
 
-    renderAlbums() {
-      return this.state.requests.map((el,index) => {
+    renderRequests(requests) {
+      // console.log("requestsrequestsrequestsrequests",requests);
+      return requests.map((el,index) => {
            return (
              <View key={index}>
                {/* <Text>Name: {el.name}</Text> */}
@@ -44,7 +45,7 @@ export default class Requests extends React.Component {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', color: 'black' }}>
           <Text>Requests</Text>
-          {this.renderAlbums()}
+          {this.renderRequests(this.state.requests)}
         </View>
       );
     }
