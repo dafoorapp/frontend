@@ -130,7 +130,8 @@ class MapTab extends React.Component {
       super(props);
       this.state = {
         requests: undefined,
-        userData : props.userData
+        userData : props.screenProps.userData,
+        userInfo: props.screenProps.userInfo
       }
     }
 
@@ -148,8 +149,8 @@ class MapTab extends React.Component {
 
     render(){
       return (
-        (this.state.requests && this.state.userData) ?
-        <Requests requests={this.state.requests}/>
+        (this.state.requests) ?
+        <Requests requests={this.state.requests} userData={this.state.userData} userInfo={this.stats.userInfo}/>
         :
         <Text></Text>
       )
@@ -159,7 +160,7 @@ class MapTab extends React.Component {
   class ProfileTab extends React.Component  {
     render(){
       return (
-        <Profile/>
+        <Profile userData={this.state.userData}/>
       )
     }
   }
@@ -176,14 +177,15 @@ export default class Student extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      userData: props.userData
+      userData: props.userData,
+      userInfo: props.userInfo
     }
   }
 
   render() {
 // console.log("userData ",this.state.userData)
     return (
-        <StudentsTab screenProps={{userData:this.props.userData}}/>
+        <StudentsTab screenProps={{userData:this.props.userData, userInfo:this.props.userInfo}}/>
     );
   }
 }

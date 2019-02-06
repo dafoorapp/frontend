@@ -10,11 +10,13 @@ export default class Requests extends React.Component {
       super(props);
       this.state = {
         requests : props.requests,
+        userData: props.userData,
+        userInfo: props.userInfo
       }
     }  
 
     componentDidMount(){
-      fetch(`${API_URL}/requests/${this.props.screenProps.userInfo.type}s/${this.props.screenProps.userInfo.id}`)
+      fetch(`${API_URL}/requests/${this.state.userInfo.type}s/${this.state.userInfo.id}`)
       .then(response => response.json())
       .then(data => {
         console.log(data);
