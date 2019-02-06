@@ -3,7 +3,7 @@ import { StyleSheet, Text, View , TextInput, Picker} from 'react-native';
 // import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 import RNPickerSelect from 'react-native-picker-select';
 import { Button, ThemeProvider} from 'react-native-elements';
-import { Input , ButtonGroup } from 'react-native-elements';
+import { Input , CheckBox } from 'react-native-elements';
 import firebase from 'firebase';
 
 const API_URL = 'http://localhost:3000';
@@ -18,8 +18,9 @@ export default class Profile extends React.Component {
         latitude:null,
         longitude:null,
         location : null,
-        subject:'',
+        subject:[],
         price: '',
+        // user_id: '',
         
         error:'',
         gender: undefined,
@@ -33,8 +34,15 @@ export default class Profile extends React.Component {
                     value: 'F',
                 },
             ],
-        
+
+            topics : {
+              math:false,
+              physics:false,
+              computer:false,
+            }
+            
       }
+      
     }
 
     componentDidMount() {
@@ -69,19 +77,28 @@ export default class Profile extends React.Component {
           phone_number: this.state.phone_number,
           gender: this.state.gender,
           location: location,
-          user_id: this.props.userInfo.user_id
+          user_id: this.props.userInfo.id
         }
       }else if(this.props.userInfo.type === 'tutor'){
+
+        const subject = Object.keys(this.state.topics).filter(el => {
+          if (this.state.topics[el] === true) {
+            return el;
+          }
+          // return this.state.topics[el] === true ? el : null
+        })
+
         userData = {
           name: this.state.name,
           phone_number: this.state.phone_number,
           gender: this.state.gender,
           location: location,
-          subject: this.state.subject,
+          subject: subject,
           price: this.state.price,
-          user_id: this.props.userInfo.user_id
+          user_id: this.props.userInfo.id
         }
       }
+
       console.log("*****",userData)
       fetch(url,{
         method:'POST',
@@ -93,28 +110,12 @@ export default class Profile extends React.Component {
       .then(response => response.json())
       .then(data => {
         console.log(data);
+        this.props.setActivePage(this.props.userInfo.type);
 
       })
       .catch(error => console.log(error))
     }
     
-    // handleChange(event){
-    //   const currentInput = event.target.name;
-    //   const newValue = event.target.value;
-    //   console.log('current input: ', currentInput);
-    //   console.log('newValue: ', newValue);
-    //   this.setState({
-    //     [currentInput]: newValue
-    //   }, function(){
-    //     console.log(this.state);
-    //   })
-    // }
-
-    handleSubmit(event) { //
-      event.preventDefault();
-      
-    }
-
     handleSignOut = () => {
       firebase.auth().signOut().then(() => {
         console.log('sign out!!!')
@@ -122,13 +123,11 @@ export default class Profile extends React.Component {
       });
     }
 
+    studentForm = () => {
 
-    render() {
-      return (
-        
-        <View style={styles.container}>
-         
-         <Input style = {styles.input}
+        return( 
+          <View> 
+          <Input style = {styles.input}
           name="name"
           onChangeText={(value) => {
             this.setState({
@@ -142,7 +141,9 @@ export default class Profile extends React.Component {
                     <RNPickerSelect
                     style= {styles.input}
                     placeholder={{
-                        
+                        label: 'Select a Gender...',
+                        value: "M",
+                        color: '#9EA0A4',
                     }}
                     // name="gender"
                     items={this.state.items}
@@ -165,7 +166,127 @@ export default class Profile extends React.Component {
           leftIcon={{ type: 'font-awesome', name: 'phone',marginRight: 20 }}
           errorMessage='Enter your phone here' 
           />
+          </View>
+         )
+    }
 
+    toggleTopics = (topic) => {
+      this.setState({
+        topics: {
+          ...this.state.topics,
+          [topic]: !this.state.topics[topic]
+        }
+      }, function(){
+        console.log('in toggleTopics:')
+        console.log(this.state.topics)
+      })
+    }
+
+    tutorForm = () => {
+      return(
+        <View>
+        <Input style = {styles.input}
+        name="name"
+        onChangeText={(value) => {
+          this.setState({
+              name: value,
+          } , () => console.log( "Ana name" ,this.state.name));
+      }}
+        placeholder='name'
+        leftIcon={{ type: 'font-awesome', name: 'user', marginRight: 20}}
+        errorMessage='Enter your name here' 
+        />
+                  <RNPickerSelect
+                  style= {styles.input}
+                  placeholder={{
+                      label: 'Select a Gender...',
+                      value: "M",
+                      color: '#9EA0A4',
+                  }}
+                  // name="gender"
+                  items={this.state.items}
+                  onValueChange={(value) => {
+                      this.setState({
+                          gender: value,
+                      } , () => console.log( "Ana gender" ,this.state.gender));
+                  }}
+                  />
+
+       <Input style = {styles.input}
+       keyboardType = 'numeric'
+        name="phone_number"
+        onChangeText={(value) => {
+          this.setState({
+              phone_number: value,
+          } , () => console.log( "Ana phone_number" ,this.state.phone_number));
+      }}
+        placeholder='####'
+        leftIcon={{ type: 'font-awesome', name: 'phone',marginRight: 20 }}
+        errorMessage='Enter your phone here' 
+        />
+
+      <CheckBox
+      center
+      title="Math"
+      checked={this.state.topics.math}
+      onPress = {() => {
+        this.toggleTopics('math')
+        console.log(this.state.math);
+      }   
+      }/>
+
+      <CheckBox
+      center
+      title="Physics"
+      checked={this.state.topics.physics}
+      onPress = {() => {
+        this.toggleTopics('physics')
+        console.log(this.state.physics);
+      }   
+      }/>
+
+      <CheckBox
+      center
+      title="Computer"
+      checked={this.state.topics.computer}
+      onPress = {() => {
+        this.toggleTopics('computer')
+        console.log(this.state.computer);
+      }   
+      }/>
+
+      <Input style = {styles.input}
+       keyboardType = 'numeric'
+        onChangeText={(value) => {
+          this.setState({
+              price: value,
+          } , () => console.log( "Ana price" ,this.state.price));
+      }}
+        placeholder='####'
+        leftIcon={{ type: 'font-awesome', name: 'money',marginRight: 20 }}
+        errorMessage='Enter your phone here' 
+        />
+        </View>
+      )
+
+    }
+
+    render() {
+      return (
+        <View style={styles.container}>
+
+            {
+              (this.props.userInfo.type === 'student') ?
+                this.studentForm()
+                :
+                this.tutorForm()
+
+
+
+          
+
+           }
+      
           {/* the buttons gonna be displayed based on a conditional */}
           <Button style = {styles.button}title="Submit!" onPress = {() => this.createProfile()} /> 
           <Button title="Edit!" />    

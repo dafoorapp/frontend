@@ -48,12 +48,12 @@ export default class Logs extends React.Component {
       }
 
       const url = API_URL + '/users';
-
       axios.post(url, userData)
         .then(data => {
           console.log("DAATAAA", Object.keys(data.data).join(", "))
           
             // console.log("dncknscknsdkcnskdn",this.state.test);
+            console.log(data.data);
             this.props.signedUpUser(data.data);
             
         
