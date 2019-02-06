@@ -47,6 +47,11 @@ export default class ReqForm extends React.Component {
       }
     }
 
+    makeRequest(){
+      this.props.setSubjectAndDuration(this.state.subject, this.state.duration);
+      this.props.makeRequest();
+    }
+
     render() {
       return (
         <View style={styles.container}>
@@ -71,7 +76,7 @@ export default class ReqForm extends React.Component {
                       
                     <Text style={styles.text}>Select the duration of your session :</Text>
                     <View style= {styles.input}>
-           <RNPickerSelect
+                    <RNPickerSelect
                     placeholder={{
                        
                     }}
@@ -83,7 +88,7 @@ export default class ReqForm extends React.Component {
                     }}
                     />
                     </View>
-                    <Button title="Make Req" onPress={() => this.props.makeRequest()} />
+                    <Button title="Make Req" onPress={() => this.makeRequest()} />
         </View>
       );
     }

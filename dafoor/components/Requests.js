@@ -6,15 +6,17 @@ import Map from './student/Map';
 const API_URL = 'http://localhost:3000';
 
 export default class Requests extends React.Component {
-    constructor(){
-      super();
+    constructor(props){
+      super(props);
       this.state = {
-        requests : [],
+        requests : props.requests,
+        userData: props.userData,
+        userInfo: props.userInfo
       }
     }  
 
     componentDidMount(){
-      fetch(`${API_URL}/requests/${this.props.screenProps.userInfo.type}s/${this.props.screenProps.userInfo.id}`)
+      fetch(`${API_URL}/requests/${this.state.userInfo.type}s/${this.state.userInfo.id}`)
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -25,8 +27,9 @@ export default class Requests extends React.Component {
       .catch(error => console.log(error))
     }
 
-    renderAlbums() {
-      return this.state.requests.map((el,index) => {
+    renderRequests(requests) {
+      // console.log("requestsrequestsrequestsrequests",requests);
+      return requests.map((el,index) => {
            return (
              <View key={index}>
                {/* <Text>Name: {el.name}</Text> */}
@@ -45,7 +48,7 @@ export default class Requests extends React.Component {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', color: 'black' }}>
           <Text>Requests</Text>
-          {this.renderAlbums()}
+          {this.renderRequests(this.state.requests)}
         </View>
       );
     }
