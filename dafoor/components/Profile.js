@@ -102,7 +102,7 @@ export default class Profile extends React.Component {
           }
           // return this.state.topics[el] === true ? el : null
         })
-
+        console.log("Ana subject" , subject);
         userData = {
           name: this.state.name,
           phone_number: this.state.phone_number,
@@ -302,18 +302,21 @@ export default class Profile extends React.Component {
       return (
         <View style={styles.container}>
 
-            {(this.props.screenProps.isLoggedIn === true) ?
+            {
+              (!this.props.newUser) ?
+              
 
-              (this.props.screenProps.userInfo.type === 'student') ?
-                this.studentForm()
-              :
-                this.tutorForm()
-              :
+                 ( (this.props.screenProps.userInfo.type === 'student') ?
+                  this.studentForm()
+                :
+                  this.tutorForm())
+                :
               (this.props.userInfo.type === 'student') ?
               this.studentForm()
               :
                 this.tutorForm()
-              
+          
+                
            }
       
           {/* the buttons gonna be displayed based on a conditional */}

@@ -16,10 +16,11 @@ export default class Requests extends React.Component {
     }  
 
     componentDidMount(){
-      fetch(`${API_URL}/requests/${this.state.userInfo.type}s/${this.state.userInfo.id}`)
+      console.log(`${API_URL}/requests/${this.props.screenProps.userInfo.type}s/${this.props.screenProps.userInfo.id}`)
+      fetch(`${API_URL}/requests/${this.props.screenProps.userInfo.type}s/${this.props.screenProps.userInfo.id}`)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        console.log('reeeeeqqqquest %% DDDDAAAATTTTAAA', data);
         this.setState({
           requests: data
         })
@@ -28,7 +29,7 @@ export default class Requests extends React.Component {
     }
 
     renderRequests(requests) {
-      // console.log("requestsrequestsrequestsrequests",requests);
+      console.log("requestsrequestsrequestsrequests",requests);
       return requests.map((el,index) => {
            return (
              <View key={index}>
@@ -48,12 +49,8 @@ export default class Requests extends React.Component {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', color: 'black' }}>
           <Text>Requests</Text>
-          {
-            (this.state.requests) ?
-
-            this.renderRequests(this.state.requests)
-          :
-          <Text></Text>}
+          {this.state.requests? 
+            this.renderRequests(this.state.requests) : <Text>Empty</Text>}
         </View>
       );
     }

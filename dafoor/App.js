@@ -24,6 +24,7 @@ export default class App extends React.Component {
       name: 'test',
       email: '',
       signUp: false,
+      newUser: true
     }
   }
 
@@ -90,7 +91,7 @@ export default class App extends React.Component {
     .then(data => {
       this.setState({ userInfo: data })
       console.log(data)
-      console.log('fetch user data', data.type )
+      console.log('fetch user info', data.type )
       this.getUserData();
       if (data.type === 'student') {
         this.setActivePage('student');
@@ -107,16 +108,16 @@ export default class App extends React.Component {
     fetch(`${API_URL}/${this.state.userInfo.type}s/${this.state.userInfo.id}`)
     .then(response => response.json())
     .then(data => {
+      this.setState({ userData : data});
       setIsLoggedIn();
-      this.setState({ userData : data})
-      console.log('fetch user userdata', data )
+      console.log('fetch user data', data )
     })
     .catch(error => console.log(error))
   } 
 
   handleSignOut = () => {
     firebase.auth().signOut().then(() => {
-      console.log('sign out!!!')
+      cionsole.log('sign out!!!')
       this.setState({isLoggedIn: false})
     });
   }
@@ -137,7 +138,7 @@ export default class App extends React.Component {
   }
   
   setActivePage = (activePage) => {
-    this.setState({activePage}, () => {console.log("hi keefeek : " , this.state.activePage)})
+    this.setState({activePage}, () => {console.log("hi keefeek : " , this.state.activePage , this.state.isLoggedIn)})
     // console.log("hi keefeek : " , this.state.activePage);
   }
 
@@ -166,17 +167,17 @@ export default class App extends React.Component {
 renderActivePage = () => {
   if(this.state.activePage === 'profile'){
     return (
-      (this.state.userData) ?
-     <Profile userInfo = {this.state.userInfo} userData = {this.state.userData}/> : <Text></Text>
+      (this.state.userInfo) ?
+     <Profile setActivePage = {this.setActivePage.bind(this)} userInfo = {this.state.userInfo} userData = {this.state.userData} newUser = {this.state.newUser}/> : <Text></Text>
     )
   } else if (this.state.activePage === 'tutor'){
        return (
         (this.state.userData) ?
-       <Tutors userInfo={this.state.userInfo} userData={this.state.userData} isLoggedIn= {this.state.isLoggedIn}/> : <Text></Text>
+       <Tutors userInfo={this.state.userInfo} userData={this.state.userData} isLoggedIn= {this.state.isLoggedIn } newUser = {false}/> : <Text>sdhxjdh</Text>
        )
   } else if (this.state.activePage === 'student'){
      return (
-      (this.state.userData) ? <Student userInfo={this.state.userInfo} userData={this.state.userData} isLoggedIn= {this.state.isLoggedIn}/> : <Text></Text>
+      (this.state.userData) ? <Student userInfo={this.state.userInfo} userData={this.state.userData} newUser = {false}/> : <Text></Text>
 
      )
   }
@@ -185,8 +186,9 @@ renderActivePage = () => {
 signedUpUser = (userInfo) => {
   this.setState({userInfo});
   this.setActivePage('profile');
-  console.log('&&&&&&&&& ^^^^^^^^ ',this.state.userInfo);
+  console.log('&&&&&&&&& ^^^^^^^^ ',this.state.activePage);
   this.setIsLoggedIn();
+  this.getUserData()
   // Object.keys(this.state.userInfo).forEach(el => {
   //   console.log(el + ':' + this.state.userInfo[el])
   // })
