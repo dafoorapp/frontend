@@ -102,7 +102,7 @@ export default class Profile extends React.Component {
           }
           // return this.state.topics[el] === true ? el : null
         })
-
+        console.log("Ana subject" , subject);
         userData = {
           name: this.state.name,
           phone_number: this.state.phone_number,
