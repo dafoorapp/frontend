@@ -6,6 +6,8 @@ import ReqForm from './ReqForm';
 import Profile from '../Profile';
 import Requests from '../Requests';
 import ListOfTutors from './ListOfTutors';
+import { Container, Header, Content, Form, Item, Input } from 'native-base';
+
 
 const API_URL = 'http://localhost:3000';
 
@@ -76,13 +78,13 @@ class MapTab extends React.Component {
   renderActiveReq(activeReq){
     return activeReq.map((el, index) => {
       return (
-        <View key={index}>
+        <Content key={index}>
           <Text>Tutor name: {el.name}</Text>
           <Text>Gender: {el.gender}</Text>
           <Text>Duration: {el.duration}</Text>
           <Text>Subject: {el.subject}</Text>
           <Text>Phone Number: {el.phone_number}</Text>
-        </View>
+        </Content>
       )
     }
     )
@@ -94,14 +96,18 @@ class MapTab extends React.Component {
       return (
 
         (this.state.requests) ? 
-        <ScrollView style={ styles.boxOne }>
-        <View style={styles.container}>
+        // <ScrollView style={ styles.boxOne }>
+         <Container>
+           <Header>
+            <Text>DAFOOR</Text>
+             </Header>
+        {/* <View style={styles.container}> */}
           <Map requests={this.state.requests}/>
           {(this.state.activeReq)? 
-           <View>
+           <Content>
            <Text>Active Req</Text>
             {this.renderActiveReq(this.state.activeReq)}
-         </View>
+         </Content>
         :
           (this.state.userData) ?
           (this.state.makeReq) ? 
@@ -117,8 +123,7 @@ class MapTab extends React.Component {
           <Text></Text>
           
         }
-        </View>
-        </ScrollView>
+        </Container>
         :
         <Text></Text>
       );

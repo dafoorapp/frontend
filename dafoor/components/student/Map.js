@@ -86,7 +86,7 @@ export default class Map extends React.Component {
       // console.log('reeennnnder', this.state.marker);
       return (
         <View>
-          <Text>ksnda</Text>
+          {/* <Text>ksnda</Text> */}
           <MapView style={{ alignSelf: 'stretch', height: 300, width: 300 }}
           region={this.state.mapRegion}
           // provider={MapView.PROVIDER_GOOGLE}
