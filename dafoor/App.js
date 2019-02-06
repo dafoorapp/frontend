@@ -102,10 +102,12 @@ export default class App extends React.Component {
   }
 
   getUserData = () => {
+    const setIsLoggedIn = this.setIsLoggedIn;
     console.log(`${API_URL}/${this.state.userInfo.type}s/${this.state.userInfo.id}`)
     fetch(`${API_URL}/${this.state.userInfo.type}s/${this.state.userInfo.id}`)
     .then(response => response.json())
     .then(data => {
+      setIsLoggedIn();
       this.setState({ userData : data})
       console.log('fetch user data', data )
     })
@@ -150,16 +152,35 @@ export default class App extends React.Component {
   // }
 
 
+// renderActivePage = () => {
+//   if(this.state.activePage === 'profile'){
+//     return <Profile userInfo = {this.state.userInfo} setActivePage = {this.setActivePage.bind(this)} userData = {this.state.userData} />
+//   } else if (this.state.activePage === 'tutor'){
+//        return <Tutors userInfo={this.state.userInfo} userData={this.state.userData}/>
+//   } else if (this.state.activePage === 'student'){
+//     return <Student userInfo={this.state.userInfo} userData={this.state.userData}/>
+     
+//   }
+// }
+
 renderActivePage = () => {
   if(this.state.activePage === 'profile'){
-    return <Profile userInfo = {this.state.userInfo} setActivePage = {this.setActivePage.bind(this)} userData = {this.state.userData} />
+    return (
+      (this.state.userData) ?
+     <Profile userInfo = {this.state.userInfo} userData = {this.state.userData}/> : <Text></Text>
+    )
   } else if (this.state.activePage === 'tutor'){
-       return <Tutors userInfo={this.state.userInfo} userData={this.state.userData}/>
+       return (
+        (this.state.userData) ?
+       <Tutors userInfo={this.state.userInfo} userData={this.state.userData} isLoggedIn= {this.state.isLoggedIn}/> : <Text></Text>
+       )
   } else if (this.state.activePage === 'student'){
-    return <Student userInfo={this.state.userInfo} userData={this.state.userData}/>
-     
+     return (
+      (this.state.userData) ? <Student userInfo={this.state.userInfo} userData={this.state.userData}/> : <Text></Text>
+
+     )
   }
-}
+} 
 
 signedUpUser = (userInfo) => {
   this.setState({userInfo});

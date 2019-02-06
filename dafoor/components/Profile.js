@@ -74,6 +74,8 @@ export default class Profile extends React.Component {
       this.setState({
         name: this.props.screenProps.userData.name,
         phone_number: this.props.screenProps.userData.phone_number,
+        subject: this.props.screenProps.userData.subject,
+        price: this.props.screenProps.userData.cost,
       })
     }
 
@@ -280,6 +282,7 @@ export default class Profile extends React.Component {
 
       <Input style = {styles.input}
        keyboardType = 'numeric'
+       value= {this.state.price}
         onChangeText={(value) => {
           this.setState({
               price: value,
@@ -295,19 +298,22 @@ export default class Profile extends React.Component {
     }
 
     render() {
+      // console.log(this.props.isLoggedIn);
       return (
         <View style={styles.container}>
 
-            {
-              (this.props.userInfo.type === 'student') ?
+            {(this.props.screenProps.isLoggedIn === true) ?
+
+              (this.props.screenProps.userInfo.type === 'student') ?
                 this.studentForm()
-                :
+              :
                 this.tutorForm()
-
-
-
-          
-
+              :
+              (this.props.userInfo.type === 'student') ?
+              this.studentForm()
+              :
+                this.tutorForm()
+              
            }
       
           {/* the buttons gonna be displayed based on a conditional */}
