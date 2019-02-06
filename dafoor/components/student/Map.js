@@ -8,9 +8,15 @@ export default class Map extends React.Component {
       super(props);
       // console.log('proooooprs',props.requests);
       this.state = {
-        marker : props.requests
+        marker : props.requests,
+        mapRegion: { latitude: 24.7155904, longitude: 46.6548654, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }
+      };
       }
-    }
+
+      _handleMapRegionChange = mapRegion => {
+        this.setState({ mapRegion });
+      };
+  
 
     // componentDidMount(){
     //   this.setState({
@@ -37,14 +43,38 @@ export default class Map extends React.Component {
       // console.log('kdnsjsnjnsjfcnsdjcnfsdjnfjksdksmd djsnfjsdnfjs',this.props.requests);
       // const req = this.props.requests;
       // console.log("hhhiiiiii marker",this.state.marker);
-      return this.state.marker.map ((el, index) => {
-          return (<MapView.Marker 
-            key={index}
-            coordinate={{latitude: el.st_x, longitude: el.st_y}}
-          />
-          )
-      }
-      )
+      // console.log("this.state.marker",this.state.marker);
+      // return (
+      // <MapView.Marker 
+      //   key={1}
+      //   coordinate={[{latitude: this.state.marker[1].st_x, longitude:this.state.marker[1].st_y}]}
+      // />
+      // )
+      const arr = this.state.marker.map((el) => {
+        return {coordinates : {latitude: el.st_x, longitude: el.st_y, title: el.name,description: el.subject }}
+      });
+      // console.log("arr", arr);
+      return arr.map((marker, index) => {
+        return (<MapView.Marker 
+          key={index}
+          title={marker.coordinates.title}
+          description={marker.coordinates.description.toString()}
+          coordinate={{
+            latitude: marker.coordinates.latitude,
+            longitude: marker.coordinates.longitude
+          }}
+          // coordinate={marker.coordinates}
+        />
+        )
+      })
+      // return this.state.marker.map((el, index) => {
+      //     return (<MapView.Marker 
+      //       key={index}
+      //       coordinate={arr}
+      //     />
+      //     )
+      // }
+      // )
     }
 
 
@@ -58,12 +88,9 @@ export default class Map extends React.Component {
         <View>
           <Text>ksnda</Text>
           <MapView style={{ alignSelf: 'stretch', height: 300, width: 300 }}
-          initialRegion={{
-            latitude: 24.7155904,
-            longitude: 46.6548654,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
+          region={this.state.mapRegion}
+          // provider={MapView.PROVIDER_GOOGLE}
+          onRegionChange={this._handleMapRegionChange}
         >
         {/* {this.state.marker.map((el) => {
         <MapView.Marker
@@ -71,6 +98,10 @@ export default class Map extends React.Component {
         />
         })} */}
         {/* {(this.state.marker) ? this.renderMarker() : <Text></Text>} */}
+        {/* <MapView.Marker 
+        key={0}
+        coordinate={{latitude: this.state.marker[0].st_x, longitude:this.state.marker[0].st_y}}
+      /> */}
         {this.renderMarker()}
         </MapView>
         </View>
