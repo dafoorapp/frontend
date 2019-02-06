@@ -109,7 +109,7 @@ export default class App extends React.Component {
     .then(data => {
       setIsLoggedIn();
       this.setState({ userData : data})
-      console.log('fetch user data', data )
+      console.log('fetch user userdata', data )
     })
     .catch(error => console.log(error))
   } 
@@ -176,7 +176,7 @@ renderActivePage = () => {
        )
   } else if (this.state.activePage === 'student'){
      return (
-      (this.state.userData) ? <Student userInfo={this.state.userInfo} userData={this.state.userData}/> : <Text></Text>
+      (this.state.userData) ? <Student userInfo={this.state.userInfo} userData={this.state.userData} isLoggedIn= {this.state.isLoggedIn}/> : <Text></Text>
 
      )
   }

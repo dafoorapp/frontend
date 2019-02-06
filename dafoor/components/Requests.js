@@ -9,9 +9,9 @@ export default class Requests extends React.Component {
     constructor(props){
       super(props);
       this.state = {
-        requests : props.requests,
-        userData: props.userData,
-        userInfo: props.userInfo
+        requests : undefined,
+        userData: props.screenProps.userData,
+        userInfo: props.screenProps.userInfo
       }
     }  
 
@@ -37,7 +37,7 @@ export default class Requests extends React.Component {
                <Text>Cost: {el.cost}</Text>
                <Text>Subject: {el.subject}</Text> 
                <Text>duration: {el.duration}</Text> 
-               <Text>tutor name: {el.name}</Text>
+               <Text>{this.state.userInfo.type} name: {el.name}</Text>
               </View>
               //  <Map/>
            );
@@ -48,7 +48,12 @@ export default class Requests extends React.Component {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', color: 'black' }}>
           <Text>Requests</Text>
-          {this.renderRequests(this.state.requests)}
+          {
+            (this.state.requests) ?
+
+            this.renderRequests(this.state.requests)
+          :
+          <Text></Text>}
         </View>
       );
     }
