@@ -180,7 +180,7 @@ export default class Logs extends React.Component {
                     }}
                     />
           
-            <Button style= {{marginTop:15}} title="Sign Up" onPress={this.handleSignUp} />
+            <Button style= {{marginTop:15, color: 'wihte'}} title="Sign Up" onPress={this.handleSignUp} />
           </View>
             :
             <Button  title="Sign in" onPress={this.handleSignIn} />
@@ -193,7 +193,7 @@ export default class Logs extends React.Component {
       return (
         <ImageBackground  style={styles.backgroundimg} source={require('../assets/daffor.jpg')}>
         <View style={styles.container}>
-        <Text>LOGS</Text>
+        {/* <Text>LOGS</Text> */}
         { this.state.typeOfLog === '' ? this.renderLogs() : this.renderLogForm() }
         </View>
            </ImageBackground>
@@ -203,15 +203,16 @@ export default class Logs extends React.Component {
 
   const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#fff',
+      flex: 3,
+      // backgroundColor: '#fff',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'center'
     },
     backgroundimg: {
       flex: 1,
       width: null,
       height: null,
-      resizeMode: 'cover'
+      resizeMode: 'cover',
+      opacity: 0.5,
   }
   });
