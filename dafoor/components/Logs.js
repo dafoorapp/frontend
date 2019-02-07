@@ -39,6 +39,10 @@ export default class Logs extends React.Component {
       // this.props.setActivePage('profile'); 
     }
 
+
+    componentDidMount(){
+      console.log("\n\n\n\n\n\n\n\n\n\n\n\n rendering logs")
+    }
     createUser = () => {
       console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
 
@@ -55,8 +59,7 @@ export default class Logs extends React.Component {
             // console.log("dncknscknsdkcnskdn",this.state.test);
             console.log(data.data);
             this.props.signedUpUser(data.data);
-            
-        
+          
           console.log('state set')
         })
         .catch(console.log)
