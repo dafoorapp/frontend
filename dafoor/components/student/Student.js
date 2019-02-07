@@ -189,10 +189,14 @@ export default class Student extends React.Component {
     }
   }
 
+  componentDidMount(){
+    console.log("\n\n\n\n\n\n\n\n\n\n\n\n Student ghadeer Debug")
+  }
+
   render() {
 // console.log("userData ",this.state.userData)
     return (
-        <StudentsTab screenProps={{userData:this.state.userData, userInfo:this.state.userInfo, isLoggedIn:this.props.isLoggedIn}}/>
+        <StudentsTab screenProps={{userData:this.state.userData, userInfo:this.state.userInfo, isLoggedIn:this.props.isLoggedIn , setActivePage: this.props.setActivePage , setIsLoggedIn : this.props.setIsLoggedIn}}/>
     );
   }
 }

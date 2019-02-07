@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View , TextInput, Picker} from 'react-native';
+import { StyleSheet, Text, View , TextInput, Picker , Alert} from 'react-native';
 // import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 import RNPickerSelect from 'react-native-picker-select';
 import { Button, ThemeProvider} from 'react-native-elements';
@@ -42,7 +42,8 @@ export default class Profile extends React.Component {
               math:false,
               physics:false,
               computer:false,
-            }
+            },
+            state: true
             
       }
       
@@ -117,6 +118,33 @@ export default class Profile extends React.Component {
       }
 
       console.log("*****",userData)
+       if(this.props.userInfo.type === 'student'){
+        userData = {
+          name: this.state.name,
+          phone_number: this.state.phone_number,
+          gender: this.state.gender,
+          location: location,
+          user_id: this.props.userInfo.id
+        }
+      }else if(this.props.userInfo.type === 'tutor'){
+
+        const subject = Object.keys(this.state.topics).filter(el => {
+          if (this.state.topics[el] === true) {
+            return el;
+          }
+          // return this.state.topics[el] === true ? el : null
+        })
+        console.log("Ana subject" , subject);
+        userData = {
+          name: this.state.name,
+          phone_number: this.state.phone_number,
+          gender: this.state.gender,
+          location: location,
+          subject: subject,
+          price: this.state.price,
+          user_id: this.props.userInfo.id
+        }
+      }
       fetch(url,{
         method:'POST',
         headers: {
@@ -133,10 +161,68 @@ export default class Profile extends React.Component {
       .catch(error => console.log(error))
     }
     
+
+    editProfile = () => {
+
+      console.log("ANA EDIT" , this.props.screenProps.userInfo.type);
+      let userData;
+      const location = `${this.state.latitude} ${this.state.longitude}`;
+      if(this.props.screenProps.userInfo.type === 'student'){
+        userData = {
+          name: this.state.name,
+          phone_number: this.state.phone_number,
+          gender: this.props.screenProps.userData.gender,
+          location: location,
+          user_id: this.props.screenProps.userInfo.id
+        }
+      }else if(this.props.screenProps.userInfo.type === 'tutor'){
+
+        const subject = Object.keys(this.state.topics).filter(el => {
+          if (this.state.topics[el] === true) {
+            return el;
+          }
+          // return this.state.topics[el] === true ? el : null
+        })
+        console.log("Ana subject" , subject);
+        userData = {
+          name: this.state.name,
+          phone_number: this.state.phone_number,
+          gender: this.props.screenProps.userData.gender,
+          location: location,
+          rating: "4",
+          subject: subject,
+          price: this.state.price,
+          state: this.state.state,
+          user_id: this.props.screenProps.userInfo.id
+        }
+      }
+      
+      console.log("ANA GENDER : " , this.props.screenProps.userData.gender)
+      url = API_URL + '/' + this.props.screenProps.userInfo.type + 's/' + this.props.screenProps.userInfo.id
+      fetch(url,{
+        method: 'PUT',
+        headers:{
+          "Content-Type": 'application/json',
+        },
+        body: JSON.stringify(userData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Ana Editied DATA ",data)
+        Alert.alert(
+          'Edited',
+          'you have updated your profile',
+        )
+      })
+      .catch(error => console.log(error));
+    }
+
     handleSignOut = () => {
       firebase.auth().signOut().then(() => {
         console.log('sign out!!!')
-        this.setState({isLoggedIn: false})
+        this.props.screenProps.setIsLoggedIn(false);
+        // this.setState({isLoggedIn: false})
+        // this.props.screenProps.setActivePage('');
       });
     }
 
@@ -186,6 +272,9 @@ export default class Profile extends React.Component {
           leftIcon={{ type: 'font-awesome', name: 'phone',marginRight: 20 }}
           errorMessage='Enter your phone here' 
           />
+
+          <Button title="Edit!" onPress = {() => this.editProfile()}/>    
+
           </View>
          )
     }
@@ -203,6 +292,7 @@ export default class Profile extends React.Component {
     }
 
     tutorForm = () => {
+
       return(
         <View>
         <Input style = {styles.input}
@@ -287,18 +377,22 @@ export default class Profile extends React.Component {
        value= {this.state.price}
         onChangeText={(value) => {
           this.setState({
-              price: value,
+            price: value,
           } , () => console.log( "Ana price" ,this.state.price));
-      }}
+        }}
         placeholder='####'
         leftIcon={{ type: 'font-awesome', name: 'money',marginRight: 20 }}
-        errorMessage='Enter your phone here' 
+        errorMessage='Cost per Hour' 
         />
+
+    <Button title="Edit!" onPress = {() => this.editProfile()}/>    
+
         </View>
+
       )
-
+      
     }
-
+    
     render() {
       // console.log(this.props.isLoggedIn);
       return (
@@ -317,7 +411,7 @@ export default class Profile extends React.Component {
                 :
               (this.props.userInfo.type === 'student') ?
               this.studentForm()
-              :
+                :
                 this.tutorForm()
           
                 
@@ -325,10 +419,8 @@ export default class Profile extends React.Component {
       
           {/* the buttons gonna be displayed based on a conditional */}
           <Button style = {styles.button}title="Submit!" onPress = {() => this.createProfile()} /> 
-          
-          <Button title="Edit!" />    
 
-          <Button title = "sign out" onPress = {this.handleSignOut} />    
+          <Button title = "sign out" onPress = {() => {this.handleSignOut()}}  />    
         </Container>
       );
     }

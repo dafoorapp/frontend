@@ -41,6 +41,7 @@ import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 //   }
 
 
+
   const tab = createBottomTabNavigator({
     ActiveReq: { screen: ActiveReq },
     Requests: { screen: Requests },
@@ -50,9 +51,15 @@ import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 const TutorsTab = createAppContainer(tab);
 
   export default class Tutors extends React.Component {
+
+
+    componentDidMount(){
+      console.log("\n\n\n\n\n\n\n\n\n\n\n\n Tutor ghadeer Debug")
+    }
+
     render() {
       return (
-        <TutorsTab screenProps={{userData:this.props.userData, userInfo:this.props.userInfo, isLoggedIn: this.props.isLoggedIn}}></TutorsTab>
+        <TutorsTab screenProps={{userData:this.props.userData, userInfo:this.props.userInfo, isLoggedIn: this.props.isLoggedIn ,setIsLoggedIn : this.props.setIsLoggedIn}}></TutorsTab>
       );
     }
   }
