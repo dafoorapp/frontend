@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput,Button, ImageBackground } from 'react-native';
 import firebase from 'firebase';
 import Profile from './Profile';
 import RNPickerSelect from 'react-native-picker-select';
 import axios from 'axios';
+// import { Header, Container,Button, Content } from 'native-base';
 // import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 const API_URL = 'http://localhost:3000';
 
@@ -48,12 +49,12 @@ export default class Logs extends React.Component {
       }
 
       const url = API_URL + '/users';
+
       axios.post(url, userData)
         .then(data => {
           console.log("DAATAAA", Object.keys(data.data).join(", "))
           
             // console.log("dncknscknsdkcnskdn",this.state.test);
-            console.log(data.data);
             this.props.signedUpUser(data.data);
             
         
@@ -118,6 +119,17 @@ export default class Logs extends React.Component {
     renderLogs = () => {
       return(
         <View>
+          {/* <Button block onPress={() => this.handlelogs('sign-in')}>
+          <Text>
+          Sign In
+          </Text>
+          </Button>
+
+          <Button block onPress={() => this.handlelogs('sign-up')}>
+          <Text>
+          Sign Up
+          </Text>
+          </Button> */}
           <Button title="Sign In" onPress={() => this.handlelogs('sign-in')} />
           <Button title="Sign Up" onPress={() => this.handlelogs('sign-up')} />
         </View>
@@ -168,7 +180,7 @@ export default class Logs extends React.Component {
                     }}
                     />
           
-            <Button style= {{marginTop:15}} title="Sign Up" onPress={this.handleSignUp} />
+            <Button style= {{marginTop:15, color: 'wihte'}} title="Sign Up" onPress={this.handleSignUp} />
           </View>
             :
             <Button  title="Sign in" onPress={this.handleSignIn} />
@@ -179,19 +191,28 @@ export default class Logs extends React.Component {
 
     render() {
       return (
+        <ImageBackground  style={styles.backgroundimg} source={require('../assets/daffor.jpg')}>
         <View style={styles.container}>
-        <Text>LOGS</Text>
+        {/* <Text>LOGS</Text> */}
         { this.state.typeOfLog === '' ? this.renderLogs() : this.renderLogForm() }
         </View>
+           </ImageBackground>
       );
     }
   }
 
   const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#fff',
+      flex: 3,
+      // backgroundColor: '#fff',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'center'
     },
+    backgroundimg: {
+      flex: 1,
+      width: null,
+      height: null,
+      resizeMode: 'cover',
+      opacity: 0.5,
+  }
   });

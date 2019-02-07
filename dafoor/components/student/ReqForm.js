@@ -90,7 +90,7 @@ export default class ReqForm extends React.Component {
                     }}
                     />
                     </Content>
-                    <Button block warning onPress={() => this.makeRequest()}>
+                    <Button block onPress={() => this.makeRequest()}>
                     <Text>Make Req</Text>
                     </Button>
                     

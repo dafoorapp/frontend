@@ -325,6 +325,7 @@ export default class Profile extends React.Component {
       
           {/* the buttons gonna be displayed based on a conditional */}
           <Button style = {styles.button}title="Submit!" onPress = {() => this.createProfile()} /> 
+          
           <Button title="Edit!" />    
 
           <Button title = "sign out" onPress = {this.handleSignOut} />    
