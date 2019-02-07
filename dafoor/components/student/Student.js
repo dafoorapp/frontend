@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView} from 'react-native';
+// import { StyleSheet, Text, View, ScrollView} from 'react-native';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import Map from './Map';
 import ReqForm from './ReqForm';
 import Profile from '../Profile';
 import Requests from '../Requests';
 import ListOfTutors from './ListOfTutors';
-import { Container, Header, Content, Form, Item, Input } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Button, Text } from 'native-base';
 
 
 const API_URL = 'http://localhost:3000';
@@ -78,6 +78,7 @@ class MapTab extends React.Component {
   renderActiveReq(activeReq){
     return activeReq.map((el, index) => {
       return (
+        // <Container key={index}>
         <Content key={index}>
           <Text>Tutor name: {el.name}</Text>
           <Text>Gender: {el.gender}</Text>
@@ -85,6 +86,7 @@ class MapTab extends React.Component {
           <Text>Subject: {el.subject}</Text>
           <Text>Phone Number: {el.phone_number}</Text>
         </Content>
+        // </Container>
       )
     }
     )
@@ -104,10 +106,10 @@ class MapTab extends React.Component {
         {/* <View style={styles.container}> */}
           <Map requests={this.state.requests}/>
           {(this.state.activeReq)? 
-           <Content>
+          <Container>
            <Text>Active Req</Text>
             {this.renderActiveReq(this.state.activeReq)}
-         </Content>
+         </Container>
         :
           (this.state.userData) ?
           (this.state.makeReq) ? 
@@ -199,11 +201,11 @@ export default class Student extends React.Component {
   }
 }
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
+  // const styles = StyleSheet.create({
+  //   container: {
+  //     flex: 1,
+  //     backgroundColor: '#fff',
+  //     alignItems: 'center',
+  //     justifyContent: 'center',
+  //   },
+  // });
