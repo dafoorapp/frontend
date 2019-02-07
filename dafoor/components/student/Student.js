@@ -35,7 +35,7 @@ class MapTab extends React.Component {
       })
       console.log('activeReqactiveReqactiveReq', activeReq);
       this.setState({
-        activeReq: null
+        activeReq: activeReq
       })
     })
     .catch(error => console.log(error));

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, Alert, Linking, TouchableOpacity} from 'react-native';
 import Communications from 'react-native-communications';
 import openMap from 'react-native-open-maps';
+import { Header, Container } from 'native-base';
 
 
 const API_URL = 'http://localhost:3000';
@@ -89,7 +90,9 @@ export default class ActiveReq extends React.Component {
     renderRequestInfo() {
   
       return (
-      <View>
+      <Container>
+
+   
         <Text>Name: {this.state.acceptesReq.name}</Text>
         <Text>Duration: {this.state.acceptesReq.duration}</Text>
         <Text>Subject: {this.state.acceptesReq.subject}</Text>
@@ -115,7 +118,7 @@ export default class ActiveReq extends React.Component {
         onPress={}
         title="Click To Open Maps" /> */}
         <Button title='End Session' onPress={() => this.setRequestStatus(this.state.acceptesReq, 'endSession')}/>
-      </View>
+      </Container>
       )
     }
 
