@@ -1,7 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View} from 'react-native';
+// import { StyleSheet, Text, View} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import { Button } from 'react-native-elements';
+// import { Button } from 'react-native-elements';
+import { Container, Header, Content, Form, Item, Input, Button, Text } from 'native-base';
+
 export default class ReqForm extends React.Component {
     constructor(){
       super();
@@ -54,13 +56,13 @@ export default class ReqForm extends React.Component {
 
     render() {
       return (
-        <View style={styles.container}>
+        <Content>
 
-        <Text style={styles.text}>Select the subject you want : </Text>
-
-        <View style={styles.input}>
+        <Text>Select the subject you want : </Text>
+        
+        <Content>
            <RNPickerSelect
-                    style= {styles.input}
+                   
                     placeholder={{
                         
                     }}
@@ -71,11 +73,11 @@ export default class ReqForm extends React.Component {
                         } , () => console.log(this.state.subject));
                     }}
                     />
-          </View>
+          </Content>
 
                       
-                    <Text style={styles.text}>Select the duration of your session :</Text>
-                    <View style= {styles.input}>
+                    <Text>Select the duration of your session :</Text>
+                    <Content>
                     <RNPickerSelect
                     placeholder={{
                        
@@ -87,28 +89,32 @@ export default class ReqForm extends React.Component {
                         } , () => console.log(this.state.duration));
                     }}
                     />
-                    </View>
-                    <Button title="Make Req" onPress={() => this.makeRequest()} />
-        </View>
+                    </Content>
+                    <Button block warning onPress={() => this.makeRequest()}>
+                    <Text>Make Req</Text>
+                    </Button>
+                    
+                    {/* <Button title="Make Req" onPress={() => this.makeRequest()} /> */}
+        </Content>
       );
     }
   }
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    input: {
-      marginTop:50,
-      width: 130
-    },
-    text:{
-      fontSize:15,
-      width:220,
-      // fontWeight:'bold',
-      marginTop:10
-    }
-  });
+  // const styles = StyleSheet.create({
+  //   container: {
+  //     flex: 1,
+  //     backgroundColor: '#fff',
+  //     alignItems: 'center',
+  //     justifyContent: 'center',
+  //   },
+  //   input: {
+  //     marginTop:50,
+  //     width: 130
+  //   },
+  //   text:{
+  //     fontSize:15,
+  //     width:220,
+  //     // fontWeight:'bold',
+  //     marginTop:10
+  //   }
+  // });
