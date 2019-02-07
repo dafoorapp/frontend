@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Alert} from 'react-native';
-import { Button } from 'react-native-elements';
+// import { StyleSheet, Text, View, Alert} from 'react-native';
+// import { Button } from 'react-native-elements';
+import { Container, Header, Content, Form, Item, Input, Text } from 'native-base';
 
 const API_URL = 'http://localhost:3000';
 
@@ -111,20 +112,26 @@ class ListOfTutors extends React.Component {
     const currentReq = this.state.currentReq;
     return this.state.tutors.map((el, index) => {
       return (
-        <View key={index}>
+        <Content key={index}>
           <Text>Name: {el.name}</Text>
           <Text>Rating: {el.rating}</Text>
           <Text>Gender: {el.gender}</Text>
           <Text>Price per hour: {el.price}</Text>
           { (!this.state.activeReq) ? 
-          <Button title="Make Request" onPress={() => this.handleRequest(el)}/>
+          // <Button title="Make Request" onPress={() => this.handleRequest(el)}/>
+          <Button bordered warning onPress={() => this.handleRequest(el)}>
+          <Text>Make Request</Text>
+          </Button>
           : 
           ((currentReq !== undefined) && (currentReq.tutor_id === el.user_id)) ? 
-          <Button title="Cancel" onPress={() => this.handleCancelRequest(this.state.currentReq)}/>
+          // <Button title="Cancel" onPress={() => this.handleCancelRequest(this.state.currentReq)}/>
+          <Button bordered warning onPress={() => this.handleCancelRequest(this.state.currentReq)}>
+          <Text>Cancel</Text>
+          </Button>
           :
           <Text></Text>
           }
-        </View>
+        </Content>
       )
     }
     )
@@ -132,24 +139,24 @@ class ListOfTutors extends React.Component {
     render(){
       // console.log("propspropspropspropsprops",this.state.requests);
       return (
-        <View>
+        <Container>
           {this.rendeTutors()}
-          <Button title="Reset" onPress={() => this.props.makeRequest()} style={styles.cancelButton} />
-        </View>
+          <Button title="Reset" onPress={() => this.props.makeRequest()} />
+        </Container>
       );
     }
   };
 
   export default ListOfTutors;
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    cancelButton: {
-      margin: 5
-    }
-  });
+  // const styles = StyleSheet.create({
+  //   container: {
+  //     flex: 1,
+  //     backgroundColor: '#fff',
+  //     alignItems: 'center',
+  //     justifyContent: 'center',
+  //   },
+  //   cancelButton: {
+  //     margin: 5
+  //   }
+  // });

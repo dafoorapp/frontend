@@ -5,6 +5,8 @@ import RNPickerSelect from 'react-native-picker-select';
 import { Button, ThemeProvider} from 'react-native-elements';
 import { Input , CheckBox } from 'react-native-elements';
 import firebase from 'firebase';
+import { Header, Container } from 'native-base';
+
 
 const API_URL = 'http://localhost:3000';
 
@@ -300,8 +302,10 @@ export default class Profile extends React.Component {
     render() {
       // console.log(this.props.isLoggedIn);
       return (
-        <View style={styles.container}>
-
+        <Container>
+            <Header>
+            <Text>DAFOOR</Text>
+            </Header>
             {
               (!this.props.newUser) ?
               
@@ -324,7 +328,7 @@ export default class Profile extends React.Component {
           <Button title="Edit!" />    
 
           <Button title = "sign out" onPress = {this.handleSignOut} />    
-        </View>
+        </Container>
       );
     }
   }
