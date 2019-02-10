@@ -8,7 +8,7 @@ import firebase from 'firebase';
 import { Header, Container } from 'native-base';
 
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://pure-journey-39294.herokuapp.com';
 
 export default class Profile extends React.Component {
     constructor(props){
@@ -447,6 +447,3 @@ export default class Profile extends React.Component {
    
 
   });
-
-
-  

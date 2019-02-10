@@ -11,7 +11,7 @@ import ListOfTutors from './components/student/ListOfTutors';
 
 const config = require('./components/firebase/config');
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://pure-journey-39294.herokuapp.com';
 
 export default class App extends React.Component {
   constructor() {
