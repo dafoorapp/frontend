@@ -1,15 +1,15 @@
 import React from 'react';
-// import { StyleSheet, Text, View, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, ScrollView} from 'react-native';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import Map from './Map';
 import ReqForm from './ReqForm';
 import Profile from '../Profile';
 import Requests from '../Requests';
 import ListOfTutors from './ListOfTutors';
-import { Container, Header, Content, Form, Item, Input, Button, Text } from 'native-base';
+import { Container, Header, Content } from 'native-base';
 
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://pure-journey-39294.herokuapp.com';
 
 class MapTab extends React.Component {
   constructor(props){
@@ -18,14 +18,31 @@ class MapTab extends React.Component {
       makeReq: true,
       markers: [],
       requests: undefined,
+      allReq: undefined,
       subject: undefined,
       duration: undefined,
       userData : props.screenProps.userData,
-      activeReq: undefined
+      activeReq: []
     }
   }
 
   componentDidMount(){
+    // console.log(`${API_URL}/requests/students/${this.state.userData.user_id}`);
+    // fetch(`${API_URL}/requests/students/${this.state.userData.user_id}`)
+    // .then(response => response.json())
+    // .then(data => {
+    //   console.log('datadatadata', data);
+    //   const activeReq = data.filter(el => {
+    //     return el.status === 'active'
+    //   })
+    //   console.log('activeReqactiveReqactiveReq', activeReq);
+    //   this.setState({
+    //     activeReq: activeReq
+    //   })
+    // })
+    // .catch(error => console.log(error));
+
+    console.log(`${API_URL}/requests/students/${this.state.userData.user_id}`);
     fetch(`${API_URL}/requests/students/${this.state.userData.user_id}`)
     .then(response => response.json())
     .then(data => {
@@ -35,13 +52,11 @@ class MapTab extends React.Component {
       })
       console.log('activeReqactiveReqactiveReq', activeReq);
       this.setState({
-        activeReq: activeReq
+        allReq: activeReq
       })
     })
     .catch(error => console.log(error));
-
-
-
+    // this.getNearTutors();
     (this.state.userData) ?
     this.getNearTutors(): 
     '';
@@ -51,6 +66,49 @@ class MapTab extends React.Component {
     this.setState({
       subject,duration
     })
+  }
+
+  getActiveReq(){
+    // console.log(`${API_URL}/requests/students/${this.state.userData.user_id}`);
+    // fetch(`${API_URL}/requests/students/${this.state.userData.user_id}`)
+    // .then(response => response.json())
+    // .then(data => {
+    //   console.log('datadatadata', data);
+    //   const activeReq = data.filter(el => {
+    //     return el.status === 'active'
+    //   })
+    //   console.log('activeReqactiveReqactiveReq', activeReq);
+    //   this.setState({
+    //     activeReq: activeReq
+    //   }, () => {
+    //     console.log('this.state.activeReqthis.state.activeReqthis.state.activeReq',this.state.activeReq);
+    //   })
+    // })
+    // .catch(error => console.log(error));
+
+
+    // console.log(`${API_URL}/requests/${this.props.screenProps.userInfo.type}s/${this.props.screenProps.userInfo.id}`)
+    // fetch(`${API_URL}/requests/${this.props.screenProps.userInfo.type}s/${this.props.screenProps.userInfo.id}`)
+    // .then(response => response.json())
+    // .then(data => {
+    //   console.log('reeeeeqqqquest %% DDDDAAAATTTTAAA', data);
+    //   this.setState({
+    //     requests: data
+    //   })
+    // })
+    // .catch(error => console.log(error))
+    
+
+    const activeReq = this.state.allReq.filter(el => {
+      return el.status === 'active'
+    });
+    console.log('activeReqactiveReqactiveReq', activeReq);
+    this.setState({
+      activeReq: activeReq
+    }, () => {
+      console.log('this.state.activeReqthis.state.activeReqthis.state.activeReq',this.state.activeReq);
+    })
+    // this.getNearTutors()
   }
 
 
@@ -65,7 +123,12 @@ class MapTab extends React.Component {
         requests: data
       })
     })
-    .catch(error => console.log(error))
+    .catch(error => console.log(error));
+    // this.getActiveReq();
+    // (this.state.requests) ?
+    // this.getActiveReq()
+    // :
+    // '';
   }
 
   handleReq = () => {
@@ -105,12 +168,7 @@ class MapTab extends React.Component {
              </Header>
         {/* <View style={styles.container}> */}
           <Map requests={this.state.requests}/>
-          {(this.state.activeReq)? 
-          <Container>
-           <Text>Active Req</Text>
-            {this.renderActiveReq(this.state.activeReq)}
-         </Container>
-        :
+          {(this.state.activeReq !== []) ? 
           (this.state.userData) ?
           (this.state.makeReq) ? 
           <ReqForm makeRequest={this.handleReq.bind(this)} setSubjectAndDuration={this.setSubjectAndDuration.bind(this)}/> 
@@ -122,8 +180,12 @@ class MapTab extends React.Component {
             duration={this.state.duration} 
             userData={this.state.userData}/> 
            :
-          <Text></Text>
-          
+          <Text></Text> 
+          :
+          <Container>
+          <Text>Active Req</Text>
+           {this.renderActiveReq(this.state.activeReq)}
+        </Container>
         }
         </Container>
         :
@@ -178,7 +240,7 @@ class MapTab extends React.Component {
     Profile: { screen: Profile },
   });
 
-const StudentsTab = createAppContainer(MyApp)
+const StudentsTab = createAppContainer(MyApp);
 
 export default class Student extends React.Component {
   constructor(props){
@@ -196,7 +258,7 @@ export default class Student extends React.Component {
   render() {
 // console.log("userData ",this.state.userData)
     return (
-        <StudentsTab screenProps={{userData:this.state.userData, userInfo:this.state.userInfo, isLoggedIn:this.props.isLoggedIn , setActivePage: this.props.setActivePage , setIsLoggedIn : this.props.setIsLoggedIn}}/>
+        <StudentsTab screenProps={{userData:this.state.userData, userInfo:this.state.userInfo, isLoggedIn:this.props.isLoggedIn , setActivePage: this.props.setActivePage}}/>
     );
   }
 }

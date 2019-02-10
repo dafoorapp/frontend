@@ -2,7 +2,7 @@ import React from 'react';
 // import { StyleSheet, Text, View, ListView, FlatList, List} from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Button, Text, ListItem } from 'native-base';
 import Map from './student/Map';
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://pure-journey-39294.herokuapp.com';
 
 export default class Requests extends React.Component {
     constructor(props){

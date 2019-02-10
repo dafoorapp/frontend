@@ -6,7 +6,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import axios from 'axios';
 // import { Header, Container,Button, Content } from 'native-base';
 // import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://pure-journey-39294.herokuapp.com';
 
 const config = require('./firebase/config');
 

@@ -1,9 +1,9 @@
 import React from 'react';
 // import { StyleSheet, Text, View, Alert} from 'react-native';
 // import { Button } from 'react-native-elements';
-import { Container, Header, Content, Form, Item, Input, Text } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Text, Button } from 'native-base';
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://pure-journey-39294.herokuapp.com';
 
 
 class ListOfTutors extends React.Component {

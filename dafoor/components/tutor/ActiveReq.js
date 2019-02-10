@@ -5,7 +5,7 @@ import openMap from 'react-native-open-maps';
 import { Header, Container } from 'native-base';
 
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://pure-journey-39294.herokuapp.com';
 
 export default class ActiveReq extends React.Component {
 
@@ -37,7 +37,7 @@ export default class ActiveReq extends React.Component {
             console.log(data);
             const allRequests = data.filter((elem, index) => {
               console.log('########', elem);
-              return (elem.status === 'pending')
+              return (elem.status === 'pending' || elem.status === 'active')
             });
             this.setState({ requests: allRequests })
             console.log('@@@@@@@@@@@@@@@@',allRequests)
